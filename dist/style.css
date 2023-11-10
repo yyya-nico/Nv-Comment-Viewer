@@ -313,6 +313,9 @@ blockquote {
 .wrap #comments-list > li.same-person:active {
   background-color: #5baaff;
 }
+.wrap #comments-list > li.same-person .time {
+  color: inherit;
+}
 .wrap #comments-list > li .time {
   flex-shrink: 0;
   align-self: flex-end;
