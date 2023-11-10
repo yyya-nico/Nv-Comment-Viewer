@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const today = now.getFullYear()+"-"+(month)+"-"+(day) ;
   const defaultTitle = document.title;
 
-  jkLoadForm._date.valueAsDate = now;
+  jkLoadForm._date.value = today;
   jkLoadForm._date.max = today;
 
   const checkParams = () => {
