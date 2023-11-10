@@ -282,6 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.status === 200) {
           if (data.error) {
             console.error('Error:', data.error);
+            alert('エラー:' + data.error);
           } else {
             appendComments(data.packet);
           }
