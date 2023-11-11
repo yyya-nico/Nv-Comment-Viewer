@@ -36,11 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const now = new Date();
   const day = ("0" + now.getDate()).slice(-2);
   const month = ("0" + (now.getMonth() + 1)).slice(-2);
-  const today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+  const today = now.getFullYear()+"-"+(month)+"-"+(day);
+  const time = now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
   const defaultTitle = document.title;
 
   jkLoadForm._date.value = today;
   jkLoadForm._date.max = today;
+  jkLoadForm.timeStart.max = time;
 
   const checkParams = () => {
     if (location.search) {
@@ -94,6 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
       jkLoadForm.timeEnd.disabled = false;
       if (!timeEndFocused) {
         jkLoadForm.timeEnd.value = jkLoadForm.timeStart.value;
+        // const oneMinutesLaterDate = jkLoadForm.timeStart.valueAsDate;
+        // oneMinutesLaterDate.setMinutes(oneMinutesLaterDate.getMinutes() + 1);
+        // jkLoadForm.timeEnd.valueAsDate = oneMinutesLaterDate;
       }
     } else {
       jkLoadForm.timeEnd.disabled = true;
@@ -104,6 +109,15 @@ document.addEventListener('DOMContentLoaded', () => {
   [jkLoadForm._date, jkLoadForm.timeStart].forEach(elem =>
     elem.addEventListener('input', inputEnableJudgement)
   );
+
+  const attachTimeLimit = () => {
+    if (jkLoadForm._date.value === today) {
+      jkLoadForm.timeStart.max = time;
+    } else {
+      jkLoadForm.timeStart.max = '';
+    }
+  }
+  jkLoadForm._date.addEventListener('input', attachTimeLimit);
 
   let focusedElem = null;
   [jkLoadForm._date, jkLoadForm.timeStart, jkLoadForm.timeEnd].forEach(elem => {
@@ -160,8 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const setDiffDate = num => date.setDate(date.getDate() + num);
       const setDiffMonth = num => date.setMonth(date.getMonth() + num);
       const setDiffYear = num => date.setFullYear(date.getFullYear() + num);
-      const setDiffMinutes = num => date.setMinutes(date.getMinutes() + num);
       const setDiffHours = num => date.setHours(date.getHours() + num);
+      const setDiffMinutes = num => date.setMinutes(date.getMinutes() + num);
 
       switch (e.target) {
         case jkLoadForm.dateMinus1D:
@@ -224,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       focusedElem.valueAsDate = date;
       inputEnableJudgement();
+      attachTimeLimit();
     });
   });
 
@@ -313,6 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
     jkLoadForm.timeEnd.disabled = true;
     jkLoadForm.resetButton.hidden = true;
     jkLoadForm.submitButton.disabled = true;
+    timeEndFocused = false;
   }, {passive: false});
 
   //----------------
