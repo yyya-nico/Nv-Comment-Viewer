@@ -166,9 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    elem.addEventListener('click', e => {
-      e.preventDefault();
-    }, {once: true});
+    elem.addEventListener('click', e => e.preventDefault(), {once: true});
+
+    elem.addEventListener('blur', () => {
+      elem.addEventListener('click', e => e.preventDefault(), {once: true});
+    });
   });
 
   jkLoadForm.timeEnd.addEventListener('focus', () => timeEndFocused = true);
