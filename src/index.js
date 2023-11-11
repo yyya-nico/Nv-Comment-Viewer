@@ -34,6 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const detailPc = document.querySelector('.detail-pc');
 
   const now = new Date();
+  // const oneDayAgo = new Date(now);
+  // oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+  // oneDayAgo.setHours(0);
+  // oneDayAgo.setMinutes(-oneDayAgo.getTimezoneOffset());
+  // oneDayAgo.setSeconds(0);
+  // oneDayAgo.setMilliseconds(0);
   const day = ("0" + now.getDate()).slice(-2);
   const month = ("0" + (now.getMonth() + 1)).slice(-2);
   const today = now.getFullYear()+"-"+(month)+"-"+(day);
@@ -43,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   jkLoadForm._date.value = today;
   jkLoadForm._date.max = today;
   jkLoadForm.timeStart.max = time;
+  jkLoadForm.timeEnd.max = time;
 
   const checkParams = () => {
     if (location.search) {
@@ -106,18 +113,37 @@ document.addEventListener('DOMContentLoaded', () => {
     jkLoadForm.resetButton.hidden = false;
   }
 
-  [jkLoadForm._date, jkLoadForm.timeStart].forEach(elem =>
-    elem.addEventListener('input', inputEnableJudgement)
-  );
-
   const attachTimeLimit = () => {
+    const isYesterdayDate = jkLoadForm._date.valueAsDate.getDate() === now.getDate() - 1;
+    const isCanOverflow = jkLoadForm.timeStart.value >= time;
+    const isSpanDays = jkLoadForm.timeStart.value >= jkLoadForm.timeEnd.value;
+    const compareAndAssign = (target, prop, value) => {
+      if (target[prop] !== value) {
+        target[prop] = value;
+      }
+    };
+
     if (jkLoadForm._date.value === today) {
-      jkLoadForm.timeStart.max = time;
+      compareAndAssign(jkLoadForm.timeStart, 'max', time);
+      compareAndAssign(jkLoadForm.timeEnd, 'max', time);
+    } else if (isYesterdayDate && isCanOverflow && isSpanDays) {
+      compareAndAssign(jkLoadForm.timeStart, 'max', '');
+      compareAndAssign(jkLoadForm.timeEnd, 'max', time);
     } else {
-      jkLoadForm.timeStart.max = '';
+      compareAndAssign(jkLoadForm.timeStart, 'max', '');
+      compareAndAssign(jkLoadForm.timeEnd, 'max', '');
     }
   }
-  jkLoadForm._date.addEventListener('input', attachTimeLimit);
+
+  [jkLoadForm._date, jkLoadForm.timeStart].forEach(elem => {
+    elem.addEventListener('input', inputEnableJudgement);
+    elem.addEventListener('input', attachTimeLimit);
+  });
+
+  const buttonJudgement = () => jkLoadForm.submitButton.disabled = Boolean(jkLoadForm.querySelector(':invalid'));
+
+  jkLoadForm.datetimeField.addEventListener('change', buttonJudgement);
+  jkLoadForm.datetimeField.addEventListener('click', buttonJudgement);
 
   let focusedElem = null;
   [jkLoadForm._date, jkLoadForm.timeStart, jkLoadForm.timeEnd].forEach(elem => {
@@ -139,7 +165,11 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
       }
     });
+
+    // elem.addEventListener('click', e => e.preventDefault());
   });
+
+  jkLoadForm.timeEnd.addEventListener('focus', () => timeEndFocused = true);
 
   document.addEventListener('click', e => {
     if (!e.target.closest('.jk-load-form')) {
@@ -239,14 +269,9 @@ document.addEventListener('DOMContentLoaded', () => {
       focusedElem.valueAsDate = date;
       inputEnableJudgement();
       attachTimeLimit();
+      buttonJudgement();
     });
   });
-
-  jkLoadForm.timeEnd.addEventListener('focus', () => timeEndFocused = true, {once: true});
-
-  const buttonJudgement = () => jkLoadForm.submitButton.disabled = Boolean(jkLoadForm.querySelector(':invalid'));
-  jkLoadForm.datetimeField.addEventListener('change', buttonJudgement);
-  jkLoadForm.datetimeField.addEventListener('click', buttonJudgement);
   
   const makeHTMLFromComment = comment => {
     comment = comment.chat;
