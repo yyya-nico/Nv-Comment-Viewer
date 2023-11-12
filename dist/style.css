@@ -79,6 +79,13 @@ dd ~ dt {
   margin-top: 10px;
 }
 
+hr {
+  height: 1px;
+  margin: 0 10px;
+  border: 0;
+  background-color: #7f7f7f;
+}
+
 input[type=range] {
   height: 2px;
   background-color: #e5e5e5;
@@ -305,16 +312,16 @@ blockquote {
 .wrap #comments-list > li:active {
   background-color: #666666;
 }
-.wrap #comments-list > li.same-person {
+.wrap #comments-list > li.same-user {
   background-color: #007cff;
 }
-.wrap #comments-list > li.same-person:hover {
+.wrap #comments-list > li.same-user:hover {
   background-color: #2e93ff;
 }
-.wrap #comments-list > li.same-person:active {
+.wrap #comments-list > li.same-user:active {
   background-color: #5baaff;
 }
-.wrap #comments-list > li.same-person .time {
+.wrap #comments-list > li.same-user .time {
   color: inherit;
 }
 .wrap #comments-list > li .time {

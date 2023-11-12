@@ -370,11 +370,11 @@ document.addEventListener('DOMContentLoaded', () => {
   commentsList.addEventListener('click', e => {
     const li = e.target.closest('li');
     const detailSp = document.querySelector('.detail-sp');
-    const samePersons = document.getElementsByClassName('same-person');
+    const oldSameUsers = document.getElementsByClassName('same-user');
     if (!li || li.classList.contains('detail-sp')) {
       return;
     }
-    [...samePersons].forEach(elem => elem.classList.remove('same-person'));
+    [...oldSameUsers].forEach(elem => elem.classList.remove('same-user'));
     if (li.nextElementSibling && li.nextElementSibling.classList.contains('detail-sp')) {
       detailPc.textContent = '';
       detailSp.remove();
@@ -425,13 +425,24 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     });
     dl.innerHTML = html;
+    const commentItems = commentsList.children;
+    const newSameUsers = [...commentItems].filter(comment => comment.dataset.userId === rawMeta.user_id);
+    const numberOfCommentsFromSameUser = newSameUsers.findIndex(comment => comment.dataset.thread === rawMeta.thread && comment.dataset.no === rawMeta.no) + 1;
+    const dl2 =
+    `<dl>
+      <dt>コメント回数</dt>
+      <dd>${numberOfCommentsFromSameUser}回目/全${newSameUsers.length}回中</dd>
+    </dl>
+    `;
     detailPc.appendChild(dl.cloneNode(true));
+    detailPc.appendChild(document.createElement('hr'));
+    detailPc.insertAdjacentHTML('beforeend', dl2);
     const newDetailSp = document.createElement('li');
     newDetailSp.classList.add('detail-sp');
     newDetailSp.appendChild(dl);
+    newDetailSp.appendChild(document.createElement('hr'));
+    newDetailSp.insertAdjacentHTML('beforeend', dl2);
     li.insertAdjacentElement('afterend', newDetailSp);
-    const commentItems = commentsList.children;
-    [...commentItems].filter(comment => comment.dataset.userId === rawMeta.user_id)
-      .forEach(comment => comment.classList.add('same-person'));
+    newSameUsers.forEach(comment => comment.classList.add('same-user'));
   });
 });
