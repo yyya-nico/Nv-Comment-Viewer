@@ -352,6 +352,9 @@ blockquote {
   .wrap #comments-list > li.detail-sp:hover, .wrap #comments-list > li.detail-sp:active {
     background-color: #333333;
   }
+  .wrap #comments-list > li.detail-sp hr {
+    margin: 5px 0;
+  }
 }
 
 .detail-pc {
