@@ -189,7 +189,7 @@ blockquote {
   max-width: 800px;
   height: 100vh;
   height: 100dvh;
-  margin-left: auto;
+  margin: 0 auto;
   padding-top: 56px;
   overflow-y: auto;
 }
@@ -362,7 +362,6 @@ blockquote {
   width: 25%;
   height: 100vh;
   height: 100dvh;
-  margin-left: auto;
   padding-top: 56px;
   box-shadow: 0 0 10px -2px #111111;
   background-color: #333333;
