@@ -96,6 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Form Controls
   //---------------
 
+  const buttonJudgement = () => jkLoadForm.submitButton.disabled = Boolean(jkLoadForm.querySelector(':invalid'));
+
+  jkLoadForm.datetimeField.addEventListener('change', buttonJudgement);
+  jkLoadForm.datetimeField.addEventListener('click', buttonJudgement);
+
   let timeEndFocused = false;
 
   const inputEnableJudgement = () => {
@@ -106,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // const oneMinutesLaterDate = jkLoadForm.timeStart.valueAsDate;
         // oneMinutesLaterDate.setMinutes(oneMinutesLaterDate.getMinutes() + 1);
         // jkLoadForm.timeEnd.valueAsDate = oneMinutesLaterDate;
+        buttonJudgement();
       }
     } else {
       jkLoadForm.timeEnd.disabled = true;
@@ -139,11 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
     elem.addEventListener('input', inputEnableJudgement);
     elem.addEventListener('input', attachTimeLimit);
   });
-
-  const buttonJudgement = () => jkLoadForm.submitButton.disabled = Boolean(jkLoadForm.querySelector(':invalid'));
-
-  jkLoadForm.datetimeField.addEventListener('change', buttonJudgement);
-  jkLoadForm.datetimeField.addEventListener('click', buttonJudgement);
 
   let focusedElem = null;
   [jkLoadForm._date, jkLoadForm.timeStart, jkLoadForm.timeEnd].forEach(elem => {
