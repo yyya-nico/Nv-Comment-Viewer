@@ -328,6 +328,9 @@ document.addEventListener('DOMContentLoaded', () => {
           if (data.error) {
             console.error('Error:', data.error);
             alert('エラー:' + data.error);
+          } else if (!data.packet.length) {
+            console.log('not comments found');
+            alert('指定の期間にコメントがありませんでした。');
           } else {
             appendComments(data.packet);
           }
