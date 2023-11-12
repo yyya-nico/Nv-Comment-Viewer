@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }).catch(e => {
         console.error('Failed to load', e);
       });
-    document.title = `${defaultTitle} - ${jkLoadForm.channelPicker.value} ${jkLoadForm._date.value.replaceAll('-','/')} ${jkLoadForm.timeStart.value} - ${jkLoadForm.timeEnd.value}`;
+    document.title = `${defaultTitle} - ${jkLoadForm.channelPicker.textContent} ${jkLoadForm._date.value.replaceAll('-','/')} ${jkLoadForm.timeStart.value} - ${jkLoadForm.timeEnd.value}`;
     const params = new URLSearchParams(location.search);
     params.set('ch', jkLoadForm.channelPicker.value);
     params.set('date', jkLoadForm._date.value);
