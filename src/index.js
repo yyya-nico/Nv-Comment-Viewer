@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const value = params.get(param);
         switch (param) {
           case 'ch':
-            const options = jkLoadForm.channelPicker.querySelectorAll('option');
+            const options = jkLoadForm.channelPicker.options;
             return [...options].some(option => option.value === value);
     
           case 'date':
