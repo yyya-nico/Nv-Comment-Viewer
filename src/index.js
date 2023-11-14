@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const descList = {
       thread: 'スレッドID',
       no: 'コメント番号',
-      vpos: 'スレッド開始時からのコメント経過秒',
+      vpos: 'スレッド開始時からのコメント経過時間',
       date: '日時',
       date_usec: '日時(小数部)',
       user_id: 'ユーザーID',
@@ -407,7 +407,19 @@ document.addEventListener('DOMContentLoaded', () => {
       let value = rawMeta[key];
       switch (key) {
         case 'vpos':
-          value = Number(value) / 100;
+          const baseDate = new Date(Number(value) * 10);
+          /* if (baseDate.getUTCFullYear() - 1970) {
+            baseDate.setUTCFullYear(baseDate.getUTCFullYear() - 1970);
+            value = baseDate.toLocaleString([], {timeZone: 'UTC', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'});
+          } else if (baseDate.getUTCMonth()) {
+            baseDate.setUTCMonth(baseDate.getUTCMonth() - 1);
+            value = baseDate.toLocaleString([], {timeZone: 'UTC', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'});
+          } else */ if (baseDate.getUTCDate() - 1) {
+            baseDate.setUTCMonth(baseDate.getUTCDate() - 2);
+            value = baseDate.toLocaleString([], {timeZone: 'UTC', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'});
+          } else {
+            value = baseDate.toLocaleString([], {timeZone: 'UTC', hour: 'numeric', minute: 'numeric', second: 'numeric'});
+          }
           break;
         case 'date':
           value = new Date(Number(value) * 1000)
