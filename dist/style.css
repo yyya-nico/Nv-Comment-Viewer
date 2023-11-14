@@ -209,12 +209,15 @@ header a {
 
 .wrap {
   width: 100%;
-  max-width: 800px;
   height: 100vh;
   height: 100dvh;
-  margin: 0 auto;
   padding-top: 56px;
   overflow-y: auto;
+}
+.wrap > * {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 .wrap .jk-load-form {
   display: flex;
