@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const descList = {
       thread: 'スレッドID',
       no: 'コメント番号',
-      vpos: 'スレッド開始時からのコメント経過時間',
+      vpos: '再生時間',
       date: '日時',
       date_usec: '日時(小数部)',
       user_id: 'ユーザーID',
@@ -410,15 +410,15 @@ document.addEventListener('DOMContentLoaded', () => {
           const baseDate = new Date(Number(value) * 10);
           /* if (baseDate.getUTCFullYear() - 1970) {
             baseDate.setUTCFullYear(baseDate.getUTCFullYear() - 1970);
-            value = baseDate.toLocaleString([], {timeZone: 'UTC', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'});
+            value = baseDate.toLocaleString([], {timeZone: 'UTC', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 2});
           } else if (baseDate.getUTCMonth()) {
             baseDate.setUTCMonth(baseDate.getUTCMonth() - 1);
-            value = baseDate.toLocaleString([], {timeZone: 'UTC', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'});
+            value = baseDate.toLocaleString([], {timeZone: 'UTC', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 2});
           } else */ if (baseDate.getUTCDate() - 1) {
             baseDate.setUTCMonth(baseDate.getUTCDate() - 2);
-            value = baseDate.toLocaleString([], {timeZone: 'UTC', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'});
+            value = baseDate.toLocaleString([], {timeZone: 'UTC', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 2});
           } else {
-            value = baseDate.toLocaleString([], {timeZone: 'UTC', hour: 'numeric', minute: 'numeric', second: 'numeric'});
+            value = baseDate.toLocaleString([], {timeZone: 'UTC', hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 2});
           }
           break;
         case 'date':
