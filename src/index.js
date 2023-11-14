@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         jkLoadForm.timeEnd.value = params.get('timeend');
         jkLoadForm.resetButton.hidden = false;
         jkLoadForm.submitButton.disabled = false;
+        attachTimeLimit();
         jkLoadForm.requestSubmit();
       } else {
         alert('過去ログの指定が不正でした。');
@@ -113,8 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // jkLoadForm.timeEnd.valueAsDate = oneMinutesLaterDate;
         buttonJudgement();
       }
-    } else {
-      jkLoadForm.timeEnd.disabled = true;
     }
     jkLoadForm.resetButton.hidden = false;
   }
