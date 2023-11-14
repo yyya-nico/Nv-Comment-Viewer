@@ -185,16 +185,7 @@ blockquote {
   padding-left: 8px;
 }
 
-.wrap {
-  width: 100%;
-  max-width: 800px;
-  height: 100vh;
-  height: 100dvh;
-  margin: 0 auto;
-  padding-top: 56px;
-  overflow-y: auto;
-}
-.wrap header {
+header {
   position: fixed;
   top: 0;
   left: 0;
@@ -212,8 +203,18 @@ blockquote {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
-.wrap header a {
+header a {
   color: inherit;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 800px;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0 auto;
+  padding-top: 56px;
+  overflow-y: auto;
 }
 .wrap .jk-load-form {
   display: flex;
