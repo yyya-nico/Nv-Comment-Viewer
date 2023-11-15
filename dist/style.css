@@ -345,7 +345,6 @@ header a {
   .wrap #comments-list > li.detail-sp {
     display: block;
     position: relative;
-    overflow-wrap: break-word;
     padding-top: 54px;
     border-radius: 0;
     background-color: #333333;
