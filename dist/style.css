@@ -365,7 +365,8 @@ header a {
 }
 
 .detail-pc {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   overflow-wrap: break-word;
   width: 25%;
   height: 100vh;
