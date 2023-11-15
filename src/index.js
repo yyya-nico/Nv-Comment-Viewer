@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
   [jkLoadForm._date, jkLoadForm.timeStart, jkLoadForm.timeEnd].forEach(elem => {
     elem.addEventListener('focus', e => {
       focusedElem = e.target;
-      if(focusedElem.value === '') {
+      if(focusedElem.value === '') { // TODO: 書き方考える
         focusedElem.value = '00:00';
         inputEnableJudgement();
       }
@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
       }
       focusedElem.valueAsDate = date;
-      inputEnableJudgement();
+      focusedElem !== jkLoadForm.timeEnd && inputEnableJudgement();
       attachTimeLimit();
       buttonJudgement();
     });
