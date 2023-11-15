@@ -318,6 +318,7 @@ header {
             justify-content: space-between;
             align-items: center;
             gap: 10px;
+            overflow-wrap: break-word;
             padding: 4px 10px;
             border-radius: 6px;
             transition: .1s;
@@ -368,6 +369,7 @@ header {
                 &.detail-sp {
                     display: block;
                     position: relative;
+                    overflow-wrap: break-word;
                     padding-top: calc(50px + 4px);
                     border-radius: 0;
                     background-color: #333333;
@@ -393,6 +395,7 @@ header {
 
 .detail-pc {
     overflow: hidden;
+    overflow-wrap: break-word;
     width: 25%;
     height: 100vh;
     height: 100dvh;
