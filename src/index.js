@@ -102,12 +102,12 @@ document.addEventListener('DOMContentLoaded', () => {
   jkLoadForm.datetimeField.addEventListener('change', buttonJudgement);
   jkLoadForm.datetimeField.addEventListener('click', buttonJudgement);
 
-  let timeEndFocused = false;
+  let timeEndInputed = false;
 
   const inputEnableJudgement = () => {
     if(jkLoadForm._date.value !== '' && jkLoadForm.timeStart.value !== ''){
       jkLoadForm.timeEnd.disabled = false;
-      if (!timeEndFocused) {
+      if (!timeEndInputed) {
         jkLoadForm.timeEnd.value = jkLoadForm.timeStart.value;
         // const oneMinutesLaterDate = jkLoadForm.timeStart.valueAsDate;
         // oneMinutesLaterDate.setMinutes(oneMinutesLaterDate.getMinutes() + 1);
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  jkLoadForm.timeEnd.addEventListener('focus', () => timeEndFocused = true);
+  jkLoadForm.timeEnd.addEventListener('input', () => timeEndInputed = true);
 
   document.addEventListener('click', e => {
     if (!e.target.closest('.jk-load-form')) {
@@ -362,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
     jkLoadForm.timeButtons.hidden = true;
     jkLoadForm.resetButton.hidden = true;
     jkLoadForm.submitButton.disabled = true;
-    timeEndFocused = false;
+    timeEndInputed = false;
   }, {passive: false});
 
   //----------------
