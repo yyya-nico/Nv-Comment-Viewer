@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
       }
       html +=
-      `<dt>${descList[key]}</dt>
+      `<dt>${descList[key] || key}</dt>
       <dd>${value}</dd>
       `;
     });
