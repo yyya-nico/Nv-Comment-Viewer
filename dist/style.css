@@ -75,7 +75,7 @@ ul {
 dd {
   margin-left: 40px;
 }
-dd ~ dt {
+dd + dt {
   margin-top: 10px;
 }
 
@@ -160,7 +160,6 @@ button:disabled {
 
 details {
   overflow: hidden;
-  margin: 10px;
   border-radius: 10px;
   background-color: #232323;
   box-shadow: 0 0 8px 0 #000000;
@@ -177,6 +176,9 @@ details > p,
 details > div {
   margin: 0;
   padding: 10px;
+}
+details details {
+  margin: 0 10px 10px;
 }
 
 blockquote {
@@ -211,7 +213,7 @@ header a {
   width: 100%;
   height: 100vh;
   height: 100dvh;
-  padding-top: 56px;
+  padding: 76px 10px 20px;
   overflow-y: auto;
 }
 .wrap > * {
@@ -219,14 +221,15 @@ header a {
   max-width: 800px;
   margin: 0 auto;
 }
+.wrap > * + * {
+  margin: 20px auto 0;
+}
 .wrap .jk-load-form {
   display: flex;
   flex-direction: column;
   gap: 18px;
   width: 340px;
   max-width: 100%;
-  margin: 0 auto;
-  padding: 10px;
 }
 .wrap .jk-load-form .channel-picker,
 .wrap .jk-load-form .datetime {
@@ -296,7 +299,6 @@ header a {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin: 10px;
   padding-left: 0;
   list-style: none;
 }
@@ -340,7 +342,7 @@ header a {
 }
 @media (max-width: 1023px) {
   .wrap {
-    margin-right: auto;
+    padding: 66px 10px 10px;
   }
   .wrap #comments-list > li.detail-sp {
     display: block;
