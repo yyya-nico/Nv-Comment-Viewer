@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let timeEndInputed = false;
 
-  const inputEnableJudgement = () => {
+  const timeEndEnableJudgement = () => {
     if(jkLoadForm._date.value !== '' && jkLoadForm.timeStart.value !== ''){
       jkLoadForm.timeEnd.disabled = false;
       if (!timeEndInputed) {
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   [jkLoadForm._date, jkLoadForm.timeStart].forEach(elem => {
-    elem.addEventListener('input', inputEnableJudgement);
+    elem.addEventListener('input', timeEndEnableJudgement);
     elem.addEventListener('input', attachTimeLimit);
   });
 
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
       focusedElem = e.target;
       if(focusedElem.value === '') { // TODO: 書き方考える
         focusedElem.value = '00:00';
-        inputEnableJudgement();
+        timeEndEnableJudgement();
       }
       switch (focusedElem) {
         case jkLoadForm._date:
@@ -271,9 +271,13 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
       }
       focusedElem.valueAsDate = date;
-      focusedElem !== jkLoadForm.timeEnd && inputEnableJudgement();
+      if (focusedElem !== jkLoadForm.timeEnd) {
+        timeEndEnableJudgement();
+      } else {
+        timeEndInputed = true;
+        buttonJudgement();
+      }
       attachTimeLimit();
-      buttonJudgement();
     });
   });
   
