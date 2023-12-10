@@ -40,15 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // oneDayAgo.setMinutes(-oneDayAgo.getTimezoneOffset());
   // oneDayAgo.setSeconds(0);
   // oneDayAgo.setMilliseconds(0);
+  const oneMinutesAgo = new Date(now);
+  oneMinutesAgo.setMinutes(now.getMinutes() - 1);
   const day = ("0" + now.getDate()).slice(-2);
   const month = ("0" + (now.getMonth() + 1)).slice(-2);
   const today = now.getFullYear()+"-"+(month)+"-"+(day);
   const time = now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+  const oneMinutesAgoTime = oneMinutesAgo.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
   const defaultTitle = document.title;
 
   jkLoadForm._date.value = today;
   jkLoadForm._date.max = today;
-  jkLoadForm.timeStart.max = time;
+  jkLoadForm.timeStart.max = oneMinutesAgoTime;
   jkLoadForm.timeEnd.max = time;
 
   const checkParams = () => {
@@ -112,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // const oneMinutesLaterDate = jkLoadForm.timeStart.valueAsDate;
         // oneMinutesLaterDate.setMinutes(oneMinutesLaterDate.getMinutes() + 1);
         // jkLoadForm.timeEnd.valueAsDate = oneMinutesLaterDate;
+        attachTimeLimit();
         buttonJudgement();
       }
     }
@@ -119,6 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const attachTimeLimit = () => {
+    const oneMinutesLater = jkLoadForm.timeStart.valueAsDate;
+    oneMinutesLater.setMinutes(oneMinutesLater.getMinutes() + 1);
+    const oneMinutesLaterTime = oneMinutesLater.toLocaleTimeString([], {timeZone: 'UTC', hour: '2-digit', minute: '2-digit'});
     const isYesterdayDate = jkLoadForm._date.valueAsDate.getDate() === now.getDate() - 1;
     const isCanOverflow = jkLoadForm.timeStart.value >= time;
     const isSpanDays = jkLoadForm.timeStart.value >= jkLoadForm.timeEnd.value;
@@ -129,13 +136,16 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (jkLoadForm._date.value === today) {
-      compareAndAssign(jkLoadForm.timeStart, 'max', time);
+      compareAndAssign(jkLoadForm.timeStart, 'max', oneMinutesAgoTime);
+      compareAndAssign(jkLoadForm.timeEnd, 'min', oneMinutesLaterTime);
       compareAndAssign(jkLoadForm.timeEnd, 'max', time);
     } else if (isYesterdayDate && isCanOverflow && isSpanDays) {
       compareAndAssign(jkLoadForm.timeStart, 'max', '');
+      compareAndAssign(jkLoadForm.timeEnd, 'min', '');
       compareAndAssign(jkLoadForm.timeEnd, 'max', time);
     } else {
       compareAndAssign(jkLoadForm.timeStart, 'max', '');
+      compareAndAssign(jkLoadForm.timeEnd, 'min', '');
       compareAndAssign(jkLoadForm.timeEnd, 'max', '');
     }
   }
