@@ -411,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
       date: '日時',
       date_usec: '日時(小数部)',
       user_id: 'ユーザーID',
+      name: '名前',
       mail: 'コマンド',
       premium: 'プレミアム会員',
       anonymity: '匿名',
@@ -441,6 +442,10 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
         case 'date_usec':
           value = '0.' + value;
+          break;
+        case 'user_id':
+        case 'name':
+          !rawMeta.anonymity && (value = `<a href="https://nico.ms/user/${rawMeta.user_id}" target="_blank">${value}</a>`);
           break;
         case 'premium':
         case 'anonymity':
