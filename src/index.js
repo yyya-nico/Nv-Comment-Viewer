@@ -411,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
       date: '日時',
       date_usec: '日時(小数部)',
       user_id: 'ユーザーID',
-      name: '名前',
+      name: 'ニックネーム',
       mail: 'コマンド',
       premium: 'プレミアム会員',
       anonymity: '匿名',
