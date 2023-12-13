@@ -115,14 +115,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // const oneMinutesLaterDate = jkLoadForm.timeStart.valueAsDate;
         // oneMinutesLaterDate.setMinutes(oneMinutesLaterDate.getMinutes() + 1);
         // jkLoadForm.timeEnd.valueAsDate = oneMinutesLaterDate;
-        attachTimeLimit();
-        buttonJudgement();
       }
     }
     jkLoadForm.resetButton.hidden = false;
   }
 
+  [jkLoadForm._date, jkLoadForm.timeStart].forEach(elem => {
+    elem.addEventListener('input', timeEndEnableJudgement);
+  });
+
   const attachTimeLimit = () => {
+    if (jkLoadForm.timeStart.value === '' || jkLoadForm.timeEnd.value === '') {
+      return;
+    }
     const oneMinutesLater = jkLoadForm.timeStart.valueAsDate;
     oneMinutesLater.setMinutes(oneMinutesLater.getMinutes() + 1);
     const oneMinutesLaterTime = oneMinutesLater.toLocaleTimeString([], {timeZone: 'UTC', hour: '2-digit', minute: '2-digit'});
@@ -150,18 +155,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  [jkLoadForm._date, jkLoadForm.timeStart].forEach(elem => {
-    elem.addEventListener('input', timeEndEnableJudgement);
-    elem.addEventListener('input', attachTimeLimit);
-  });
-
   let focusedElem = null;
   [jkLoadForm._date, jkLoadForm.timeStart, jkLoadForm.timeEnd].forEach(elem => {
     elem.addEventListener('focus', e => {
       focusedElem = e.target;
       if(focusedElem.value === '') { // TODO: 書き方考える
         focusedElem.value = '00:00';
-        timeEndEnableJudgement();
+        focusedElem.dispatchEvent(new Event('input', {bubbles: true}));
+        focusedElem.dispatchEvent(new Event('change', {bubbles: true}));
       }
       switch (focusedElem) {
         case jkLoadForm._date:
@@ -175,9 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
       }
     });
-
     elem.addEventListener('click', e => e.preventDefault(), {once: true});
-
+    elem.addEventListener('input', attachTimeLimit);
     elem.addEventListener('blur', () => {
       elem.addEventListener('click', e => e.preventDefault(), {once: true});
     });
@@ -281,13 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
       }
       focusedElem.valueAsDate = date;
-      if (focusedElem !== jkLoadForm.timeEnd) {
-        timeEndEnableJudgement();
-      } else {
-        timeEndInputed = true;
-        buttonJudgement();
-      }
-      attachTimeLimit();
+      focusedElem.dispatchEvent(new Event('input', {bubbles: true}));
+      focusedElem.dispatchEvent(new Event('change', {bubbles: true}));
     });
   });
   
