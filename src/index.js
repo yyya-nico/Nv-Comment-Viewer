@@ -443,8 +443,16 @@ document.addEventListener('DOMContentLoaded', () => {
           !rawMeta.anonymity && (value = `<a href="https://nico.ms/user/${rawMeta.user_id}" target="_blank">${value}</a>`);
           break;
         case 'premium':
+          value === '3' && (value = '(2ch実況板からの転載)');
         case 'anonymity':
-          value = Boolean(value) ? 'はい' : 'いいえ';
+          value = (() => {
+            switch (value) {
+              case '0': return 'いいえ';
+              case '1': return 'はい';
+              // case '3': return key === 'premium' ? '(2ch実況板からの転載)' : value;
+              default : return value;
+            }
+          })();
           break;
       }
       html +=
