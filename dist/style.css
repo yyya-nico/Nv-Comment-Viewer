@@ -9,6 +9,7 @@
   --accent: rgb(233, 233, 233);
   --scrollbarHandle: rgba(255, 255, 255, 0.2);
   --scrollbarHandleHover: rgba(255, 255, 255, 0.4);
+  --header-height: 56px;
 }
 
 html,
@@ -49,8 +50,6 @@ html *::-webkit-scrollbar-thumb:active {
 }
 
 body {
-  display: flex;
-  overflow: clip;
   margin: 0;
   background-color: #1f1f1f;
   color: #efefef;
@@ -188,13 +187,8 @@ blockquote {
 }
 
 header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2;
   overflow: hidden;
-  width: 100%;
-  height: 56px;
+  height: var(--header-height);
   padding: 15px 12.5px;
   background: rgba(0, 0, 0, 0.4980392157);
   font-size: 18px;
@@ -202,107 +196,111 @@ header {
   white-space: nowrap;
   word-break: break-all;
   text-overflow: ellipsis;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
 }
 header a {
   color: inherit;
 }
 
 .wrap {
+  display: flex;
+  overflow: clip;
+  height: calc(100vh - var(--header-height));
+  height: calc(100dvh - var(--header-height));
+}
+
+.list-area {
   width: 100%;
-  height: 100vh;
-  height: 100dvh;
-  padding: 76px 10px 20px;
+  height: 100%;
+  padding: 20px 10px;
   overflow-y: auto;
 }
-.wrap > * {
+.list-area > * {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
 }
-.wrap > * + * {
+.list-area > * + * {
   margin: 20px auto 0;
 }
-.wrap .jk-load-form {
+.list-area .jk-load-form {
   display: flex;
   flex-direction: column;
   gap: 18px;
   width: 340px;
   max-width: 100%;
 }
-.wrap .jk-load-form .channel-picker,
-.wrap .jk-load-form .datetime {
+.list-area .jk-load-form .channel-picker,
+.list-area .jk-load-form .datetime {
   display: flex;
   flex-direction: column;
   gap: 12.5px;
 }
-.wrap .jk-load-form .datetime .datetime-field {
+.list-area .jk-load-form .datetime .datetime-field {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 38px;
 }
-.wrap .jk-load-form .datetime .datetime-field > * {
+.list-area .jk-load-form .datetime .datetime-field > * {
   height: 100%;
 }
-.wrap .jk-load-form .datetime .datetime-field #date {
+.list-area .jk-load-form .datetime .datetime-field #date {
   border-right: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.wrap .jk-load-form .datetime .datetime-field #time-start {
+.list-area .jk-load-form .datetime .datetime-field #time-start {
   border-left: 0;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.wrap .jk-load-form .datetime .datetime-field span {
+.list-area .jk-load-form .datetime .datetime-field span {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   width: 30px;
   font-size: 14px;
 }
-.wrap .jk-load-form .datetime .datetime-buttons {
+.list-area .jk-load-form .datetime .datetime-buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 }
-.wrap .jk-load-form .datetime .datetime-buttons [hidden] {
+.list-area .jk-load-form .datetime .datetime-buttons [hidden] {
   visibility: hidden;
   opacity: 0;
   height: 0;
   margin-bottom: 0;
 }
-.wrap .jk-load-form .datetime .datetime-buttons > div {
+.list-area .jk-load-form .datetime .datetime-buttons > div {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-bottom: 10px;
   transition: 0.2s;
 }
-.wrap .jk-load-form .datetime .datetime-buttons #reset-button {
+.list-area .jk-load-form .datetime .datetime-buttons #reset-button {
   padding: 2px 5px;
   color: #ff5454;
   font-size: 0.5em;
 }
-.wrap .jk-load-form #submit-button {
+.list-area .jk-load-form #submit-button {
   align-self: flex-end;
 }
-.wrap .comments {
+.list-area .comments {
   display: flex;
   flex-direction: column;
   background-color: rgba(31, 31, 31, 0.8);
 }
-.wrap #comments-list {
+.list-area #comments-list {
   display: flex;
   flex-direction: column;
   gap: 4px;
   padding-left: 0;
   list-style: none;
 }
-.wrap #comments-list > li {
+.list-area #comments-list > li {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -311,40 +309,41 @@ header a {
   padding: 4px 10px;
   border-radius: 6px;
   transition: 0.1s;
-  animation: flash 0.2s linear;
+  -webkit-animation: flash 0.2s linear;
+          animation: flash 0.2s linear;
   cursor: pointer;
 }
-.wrap #comments-list > li:hover {
+.list-area #comments-list > li:hover {
   background-color: #333333;
 }
-.wrap #comments-list > li:active {
+.list-area #comments-list > li:active {
   background-color: #666666;
 }
-.wrap #comments-list > li.same-user {
+.list-area #comments-list > li.same-user {
   background-color: #007cff;
 }
-.wrap #comments-list > li.same-user:hover {
+.list-area #comments-list > li.same-user:hover {
   background-color: #2e93ff;
 }
-.wrap #comments-list > li.same-user:active {
+.list-area #comments-list > li.same-user:active {
   background-color: #5baaff;
 }
-.wrap #comments-list > li.same-user .time {
+.list-area #comments-list > li.same-user .time {
   color: inherit;
 }
-.wrap #comments-list > li .time {
+.list-area #comments-list > li .time {
   flex-shrink: 0;
   align-self: flex-end;
   color: #7f7f7f;
 }
-.wrap #comments-list > li.detail-sp {
+.list-area #comments-list > li.detail-sp {
   display: none;
 }
 @media (max-width: 1023px) {
-  .wrap {
-    padding: 66px 10px 10px;
+  .list-area {
+    padding: 10px;
   }
-  .wrap #comments-list > li.detail-sp {
+  .list-area #comments-list > li.detail-sp {
     display: block;
     position: relative;
     padding-top: 54px;
@@ -352,15 +351,18 @@ header a {
     background-color: #333333;
     -webkit-clip-path: polygon(0 50px, calc(50% - 50px) 50px, 50% 0, calc(50% + 50px) 50px, 100% 50px, 100% 100%, 0 100%);
             clip-path: polygon(0 50px, calc(50% - 50px) 50px, 50% 0, calc(50% + 50px) 50px, 100% 50px, 100% 100%, 0 100%);
-    animation: 1s ease;
-    animation-name: expand;
-    animation-direction: normal;
+    -webkit-animation: 1s ease;
+            animation: 1s ease;
+    -webkit-animation-name: expand;
+            animation-name: expand;
+    -webkit-animation-direction: normal;
+            animation-direction: normal;
     cursor: default;
   }
-  .wrap #comments-list > li.detail-sp:hover, .wrap #comments-list > li.detail-sp:active {
+  .list-area #comments-list > li.detail-sp:hover, .list-area #comments-list > li.detail-sp:active {
     background-color: #333333;
   }
-  .wrap #comments-list > li.detail-sp hr {
+  .list-area #comments-list > li.detail-sp hr {
     margin: 4px 0;
   }
 }
@@ -370,15 +372,14 @@ header a {
   overflow-y: auto;
   overflow-wrap: break-word;
   width: 25%;
-  height: 100vh;
-  height: 100dvh;
-  padding-top: 56px;
+  height: 100%;
   box-shadow: 0 0 10px -2px #111111;
   background-color: #333333;
   transition: 0.5s;
 }
 .detail-pc:empty {
   margin-right: -25%;
+  box-shadow: none;
 }
 .detail-pc > dl {
   margin: 10px;
@@ -386,6 +387,15 @@ header a {
 @media (max-width: 1023px) {
   .detail-pc {
     display: none;
+  }
+}
+
+@-webkit-keyframes flash {
+  from {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  to {
+    background-color: transparent;
   }
 }
 
@@ -397,6 +407,14 @@ header a {
     background-color: transparent;
   }
 }
+@-webkit-keyframes expand {
+  from {
+    max-height: 0;
+  }
+  to {
+    max-height: 580px;
+  }
+}
 @keyframes expand {
   from {
     max-height: 0;
@@ -404,4 +422,5 @@ header a {
   to {
     max-height: 580px;
   }
-}/*# sourceMappingURL=style.css.map */
+}
+/*# sourceMappingURL=style.css.map */

@@ -11,6 +11,7 @@
     --accent: rgb(233, 233, 233);
     --scrollbarHandle: rgba(255, 255, 255, 0.2);
     --scrollbarHandleHover: rgba(255, 255, 255, 0.4);
+    --header-height: 56px;
 }
 
 html,
@@ -51,8 +52,6 @@ html *::-webkit-scrollbar-thumb:active {
 }
 
 body {
-    display: flex;
-    overflow: clip;
     margin: 0;
     background-color: #1f1f1f;
     color: #efefef;
@@ -185,13 +184,8 @@ blockquote {
 }
 
 header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 2;
     overflow: hidden;
-    width: 100%;
-    height: 56px;
+    height: var(--header-height);
     padding: 15px 12.5px;
     background: #0000007f;
     font-size: 18px;
@@ -199,19 +193,27 @@ header {
     white-space: nowrap;
     word-break: break-all;
     text-overflow: ellipsis;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
 
     a {
         color: inherit;
     }
 }
 
+@function contentAreaHeight($unit) {
+    @return calc(100#{$unit} - var(--header-height));
+}
+
 .wrap {
+    display: flex;
+    overflow: clip;
+    height: contentAreaHeight(vh);
+    height: contentAreaHeight(dvh);
+}
+
+.list-area {
     width: 100%;
-    height: 100vh;
-    height: 100dvh;
-    padding: 76px 10px 20px;
+    height: 100%;
+    padding: 20px 10px;
     overflow-y: auto;
 
     >* {
@@ -366,7 +368,7 @@ header {
     }
 
     @media (max-width: 1023px) {
-        padding: 66px 10px 10px;
+        padding: 10px;
         #comments-list {
             >li {
                 &.detail-sp {
@@ -400,15 +402,14 @@ header {
     overflow-y: auto;
     overflow-wrap: break-word;
     width: 25%;
-    height: 100vh;
-    height: 100dvh;
-    padding-top: 56px;
+    height: 100%;
     box-shadow: 0 0 10px -2px #111111;
     background-color: #333333;
     transition: .5s;
 
     &:empty {
         margin-right: -25%;
+        box-shadow: none;
     }
 
     >dl {
