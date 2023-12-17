@@ -85,6 +85,14 @@ hr {
   background-color: #7f7f7f;
 }
 
+fieldset {
+  display: contents;
+}
+
+label {
+  display: block;
+}
+
 input[type=range] {
   height: 2px;
   background-color: #e5e5e5;
@@ -266,6 +274,9 @@ header a {
   flex-direction: column;
   align-items: center;
   width: 100%;
+}
+.list-area .jk-load-form .datetime .datetime-buttons[hidden] {
+  margin-bottom: -12.5px;
 }
 .list-area .jk-load-form .datetime .datetime-buttons [hidden] {
   visibility: hidden;

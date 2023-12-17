@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   jkLoadForm._date = jkLoadForm.elements['date'];
   jkLoadForm.timeStart = jkLoadForm.elements['time-start'];
   jkLoadForm.timeEnd = jkLoadForm.elements['time-end'];
+  jkLoadForm.dateTimeButtons = jkLoadForm.querySelector('.datetime-buttons');
   jkLoadForm.dateButtons = jkLoadForm.querySelector('.date-buttons');
   jkLoadForm.dateMinus1D = jkLoadForm.elements['date--1d'];
   jkLoadForm.dateMinus2D = jkLoadForm.elements['date--2d'];
@@ -164,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         focusedElem.dispatchEvent(new Event('input', {bubbles: true}));
         focusedElem.dispatchEvent(new Event('change', {bubbles: true}));
       }
+      jkLoadForm.dateTimeButtons.hidden = false;
       switch (focusedElem) {
         case jkLoadForm._date:
           jkLoadForm.dateButtons.hidden = false;
@@ -187,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('click', e => {
     if (!e.target.closest('.jk-load-form')) {
+      jkLoadForm.dateTimeButtons.hidden = true;
       jkLoadForm.dateButtons.hidden = true;
       jkLoadForm.timeButtons.hidden = true;
     }
@@ -367,6 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
     jkLoadForm.timeStart.value = '';
     jkLoadForm.timeEnd.value = '';
     jkLoadForm.timeEnd.disabled = true;
+    jkLoadForm.dateTimeButtons.hidden = true;
     jkLoadForm.dateButtons.hidden = true;
     jkLoadForm.timeButtons.hidden = true;
     jkLoadForm.resetButton.hidden = true;
