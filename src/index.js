@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Form Controls
   //---------------
 
-  const buttonJudgement = () => jkLoadForm.submitButton.disabled = Boolean(jkLoadForm.querySelector(':invalid'));
+  const buttonJudgement = () => jkLoadForm.submitButton.disabled = !jkLoadForm.checkValidity();
 
   jkLoadForm.datetimeField.addEventListener('change', buttonJudgement);
   jkLoadForm.datetimeField.addEventListener('click', buttonJudgement);
