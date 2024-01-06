@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   commentsLoadForm.videoId = commentsLoadForm.elements['video-id'];
   commentsLoadForm.submitButton = commentsLoadForm.elements['submit-button'];
   const introDetails = document.querySelector('details');
+  const threadSel = document.getElementById('thread');
   const commentsList = document.getElementById('comments-list');
   const detailPc = document.querySelector('.detail-pc');
   const defaultTitle = document.title;
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const defaultPath = location.pathname.slice(0 , cutIndex);
   const videoIdCandidate = location.pathname.slice(cutIndex);
   let nicoApiData = null;
+  let commentData = null;
 
   //---------------
   // Form Controls
@@ -51,10 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const appendComments = comments => {
     let html = '';
-    while (comments.length) {
-      html += makeHTMLFromComment(comments.shift());
-      // console.log('comment shifted, comments count:', comments.length);
-    }
+    comments.forEach(comment => {
+      html += makeHTMLFromComment(comment);
+    });
     commentsList.insertAdjacentHTML('beforeend', html);
     // console.log('comment count:', commentsList.querySelectorAll('li').length);
   }
@@ -89,11 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.status !== 200) {
           console.log('error or no content', response.status);
         }
-        const data = await response.json();
-        // console.log(data);
-        if (data.meta.errorCode === 'EXPIRED_TOKEN') {
-          console.error('Error:', data.meta.errorCode);
-          alert('エラー:' + data.meta.errorCode);
+        commentData = await response.json();
+        // console.log(commentData);
+        if (commentData.meta.errorCode === 'EXPIRED_TOKEN') {
+          console.error('Error:', commentData.meta.errorCode);
+          alert('エラー:' + commentData.meta.errorCode);
           // await fetch(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${videoId}`, {
           //     headers: {
           //       'X-Frontend-Id': '6',
@@ -108,22 +109,31 @@ document.addEventListener('DOMContentLoaded', () => {
           //     console.log(newThreadKey);
           //     commentsLoadForm.submit();
           // });
-        } else if (data.meta.errorCode) {
-          console.error('Error:', data.meta.errorCode);
-          alert('エラー:' + data.meta.errorCode);
-        } else if (!data.data.globalComments[0].count) {
+        } else if (commentData.meta.errorCode) {
+          console.error('Error:', commentData.meta.errorCode);
+          alert('エラー:' + commentData.meta.errorCode);
+        } else if (!commentData.data.globalComments[0].count) {
           console.log('not comments found');
           alert('コメントがありませんでした。');
         } else {
-          data.data.threads.forEach(thread => {
-            appendComments(thread.comments);
+          const thread = commentData.data.threads.find(thread => {
+            switch (threadSel.value) {
+              case 'default':
+                return thread.fork === 'main';
+              default:
+                return thread.fork === threadSel.value;
+            }
           });
+          thread.comments.sort((a, b) => a.vposMs - b.vposMs);
+          appendComments(thread.comments);
         }
       }).catch(e => {
         console.error('Failed to load', e);
       });
+      document.title = `${nicoApiData.video.title} - ${defaultTitle}`;
+    } else {
+      document.title = `${videoId} - ${defaultTitle}`;
     }
-    document.title = `${videoId} - ${defaultTitle}`;
     history.pushState(null, '', `${defaultPath}${videoId}`);
     commentsLoadForm.submitButton.disabled = false;
     commentsLoadForm.submitButton.textContent = '取得';
@@ -132,6 +142,20 @@ document.addEventListener('DOMContentLoaded', () => {
   //----------------
   // /Form Controls
   //----------------
+
+  threadSel.addEventListener('change', () => {
+    commentsList.textContent = '';
+    const thread = commentData.data.threads.find(thread => {
+      switch (threadSel.value) {
+        case 'default':
+          return thread.fork === 'main';
+        default:
+          return thread.fork === threadSel.value;
+      }
+    });
+    thread.comments.sort((a, b) => a.vposMs - b.vposMs);
+    appendComments(thread.comments);
+  });
 
   if (/(^sm|^nm|^so)[0-9]+/.test(videoIdCandidate)) {
     introDetails.open = false;

@@ -275,7 +275,10 @@ header {
             justify-content: space-between;
             align-items: center;
             gap: 10px;
+            word-break: break-all;
             overflow-wrap: break-word;
+            word-wrap: break-word;
+            line-break: anywhere;
             padding: 4px 10px;
             border-radius: 6px;
             transition: .1s;
@@ -355,7 +358,10 @@ header {
 .detail-pc {
     overflow-x: hidden;
     overflow-y: auto;
+    word-break: break-all;
     overflow-wrap: break-word;
+    word-wrap: break-word;
+    line-break: anywhere;
     width: 25%;
     height: 100%;
     box-shadow: 0 0 10px -2px #111111;
