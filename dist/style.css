@@ -230,74 +230,24 @@ header a {
 .list-area > * + * {
   margin: 20px auto 0;
 }
-.list-area .jk-load-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  width: 340px;
-  max-width: 100%;
-}
-.list-area .jk-load-form .channel-picker,
-.list-area .jk-load-form .datetime {
-  display: flex;
-  flex-direction: column;
-  gap: 12.5px;
-}
-.list-area .jk-load-form .datetime .datetime-field {
+.list-area .comments-load-form {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 340px;
   height: 38px;
+  max-width: 100%;
 }
-.list-area .jk-load-form .datetime .datetime-field > * {
+.list-area .comments-load-form > * {
   height: 100%;
 }
-.list-area .jk-load-form .datetime .datetime-field #date {
-  border-right: 0;
+.list-area .comments-load-form #video-id {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.list-area .jk-load-form .datetime .datetime-field #time-start {
-  border-left: 0;
+.list-area .comments-load-form #submit-button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-}
-.list-area .jk-load-form .datetime .datetime-field span {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  font-size: 14px;
-}
-.list-area .jk-load-form .datetime .datetime-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-.list-area .jk-load-form .datetime .datetime-buttons[hidden] {
-  margin-bottom: -12.5px;
-}
-.list-area .jk-load-form .datetime .datetime-buttons [hidden] {
-  visibility: hidden;
-  opacity: 0;
-  height: 0;
-  margin-bottom: 0;
-}
-.list-area .jk-load-form .datetime .datetime-buttons > div {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 10px;
-  transition: 0.2s;
-}
-.list-area .jk-load-form .datetime .datetime-buttons #reset-button {
-  padding: 2px 5px;
-  color: #ff5454;
-  font-size: 0.5em;
-}
-.list-area .jk-load-form #submit-button {
-  align-self: flex-end;
 }
 .list-area .comments {
   display: flex;
@@ -341,6 +291,9 @@ header a {
 }
 .list-area #comments-list > li.same-user .time {
   color: inherit;
+}
+.list-area #comments-list > li .nicoru {
+  margin-left: auto;
 }
 .list-area #comments-list > li .time {
   flex-shrink: 0;

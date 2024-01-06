@@ -234,87 +234,26 @@ header {
         }
     }
 
-    .jk-load-form {
+    .comments-load-form {
         display: flex;
-        flex-direction: column;
-        gap: 18px;
+        justify-content: center;
+        align-items: center;
         width: 340px;
+        height: 38px;
         max-width: 100%;
 
-        .channel-picker,
-        .datetime {
-            display: flex;
-            flex-direction: column;
-            gap: 12.5px;
-        }
+        >* {
+            height: 100%;
+        }  
 
-        .datetime {
-            .datetime-field {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 38px;
-
-                >* {
-                    height: 100%;
-                }
-
-                #date {
-                    border-right: 0;
-                    border-top-right-radius: 0;
-                    border-bottom-right-radius: 0;
-                }
-
-                #time-start {
-                    border-left: 0;
-                    border-top-left-radius: 0;
-                    border-bottom-left-radius: 0;
-                }
-
-                span {
-                    display: inline-flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 30px;
-                    font-size: 14px;
-                }
-            }
-
-            .datetime-buttons {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-
-                &[hidden] {
-                    margin-bottom: -12.5px;
-                }
-
-                [hidden] {
-                    visibility: hidden;
-                    opacity: 0;
-                    height: 0;
-                    margin-bottom: 0;
-                }
-
-                >div {
-                    display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 10px;
-                    margin-bottom: 10px;
-                    transition: .2s;
-                }
-
-                #reset-button {
-                    padding: 2px 5px;
-                    color: #ff5454;
-                    font-size: .5em;
-                }
-            }
+        #video-id {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
         }
 
         #submit-button {
-            align-self: flex-end;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
         }
     }
 
@@ -365,6 +304,10 @@ header {
                 .time {
                     color: inherit;
                 }
+            }
+
+            .nicoru {
+                margin-left: auto;
             }
 
             .time {
