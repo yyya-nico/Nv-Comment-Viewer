@@ -1,2 +1,2 @@
-# nicojk-kakolog-list-viewer
-ニコニコ実況の過去ログをリスト形式で見やすく
+# nv-comment-viewer
+ニコニコ動画のコメントを一覧で見やすく
