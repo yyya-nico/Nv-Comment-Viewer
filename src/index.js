@@ -1,6 +1,7 @@
 import {htmlspecialchars} from './utils';
 
 document.addEventListener('DOMContentLoaded', () => {
+  const listArea = document.querySelector('.list-area');
   const commentsLoadForm = document.forms['comments-load'];
   commentsLoadForm.videoId = commentsLoadForm.elements['video-id'];
   commentsLoadForm.submitButton = commentsLoadForm.elements['submit-button'];
@@ -12,8 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const cutIndex = location.pathname.lastIndexOf('/') + 1;
   const defaultPath = location.pathname.slice(0 , cutIndex);
   const videoIdCandidate = location.pathname.slice(cutIndex);
+  const isSmallWindow = () => window.innerWidth < 1024;
   let nicoApiData = null;
   let commentData = null;
+  let timeIndex = [];
 
   //---------------
   // Form Controls
@@ -53,8 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const appendComments = comments => {
     let html = '';
+    timeIndex = [];
     comments.forEach(comment => {
       html += makeHTMLFromComment(comment);
+      timeIndex.push(comment.vposMs);
     });
     commentsList.insertAdjacentHTML('beforeend', html);
     // console.log('comment count:', commentsList.querySelectorAll('li').length);
@@ -177,7 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
             break;
 
           case 'playerMetadataChange':
-            console.log(e.data.data.currentTime);
+            const currentTime = e.data.data.currentTime;
+            const nextItemIndex = timeIndex.findLastIndex(val => val < currentTime);
+            console.log(nextItemIndex);
+            const scrollTarget = commentsList.children[nextItemIndex];
+            const scrollPosition = scrollTarget.offsetTop - listArea.clientHeight + scrollTarget.offsetHeight + 2;
+            listArea.scrollTo({top: scrollPosition});
+            console.log(currentTime);
             break;
 
           default:
@@ -226,6 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (detailSp) {
       detailSp.remove();
     }
+    const scrollPosition = isSmallWindow() ? li.offsetTop - 2 : li.offsetTop - (listArea.clientHeight - li.offsetHeight) / 2;
+    listArea.scrollTo({top: scrollPosition});
     const rawMeta = JSON.parse((li.querySelector('.raw-data').textContent));
     const dl = document.createElement('dl');
     const descList = {
