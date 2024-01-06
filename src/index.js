@@ -92,8 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
         // console.log(data);
         if (data.meta.errorCode === 'EXPIRED_TOKEN') {
-          console.error('Error:', data.errorCode);
-          alert('エラー:' + data.errorCode);
+          console.error('Error:', data.meta.errorCode);
+          alert('エラー:' + data.meta.errorCode);
           // await fetch(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${videoId}`, {
           //     headers: {
           //       'X-Frontend-Id': '6',
@@ -109,8 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
           //     commentsLoadForm.submit();
           // });
         } else if (data.meta.errorCode) {
-          console.error('Error:', data.errorCode);
-          alert('エラー:' + data.errorCode);
+          console.error('Error:', data.meta.errorCode);
+          alert('エラー:' + data.meta.errorCode);
         } else if (!data.data.globalComments[0].count) {
           console.log('not comments found');
           alert('コメントがありませんでした。');
