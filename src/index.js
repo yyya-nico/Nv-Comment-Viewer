@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const introDetails = document.querySelector('details');
   const threadSel = document.getElementById('thread');
   const commentsList = document.getElementById('comments-list');
+  const commentsSyncBtn = document.getElementById('comments-sync');
   const detailPc = document.querySelector('.detail-pc');
   const defaultTitle = document.title;
   const cutIndex = location.pathname.lastIndexOf('/') + 1;
@@ -17,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let nicoApiData = null;
   let commentData = null;
   let timeIndex = [];
+  let autoScroll = true;
+  let scrollPosition = 0;
 
   //---------------
   // Form Controls
@@ -178,17 +181,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const videoId = nicoApiData.client.watchId;
             commentsLoadForm.videoId.value = videoId;
             commentsLoadForm.requestSubmit();
-            console.log(e.data);
+            // console.log(e.data);
             break;
 
           case 'playerMetadataChange':
             const currentTime = e.data.data.currentTime;
-            const nextItemIndex = timeIndex.findLastIndex(val => val < currentTime);
-            console.log(nextItemIndex);
-            const scrollTarget = commentsList.children[nextItemIndex];
-            const scrollPosition = scrollTarget.offsetTop - listArea.clientHeight + scrollTarget.offsetHeight + 2;
-            listArea.scrollTo({top: scrollPosition});
-            console.log(currentTime);
+            if (autoScroll) {
+              const nextItemIndex = timeIndex.findIndex(val => val > currentTime);
+              // console.log(nextItemIndex);
+              const scrollTarget = commentsList.children[nextItemIndex];
+              scrollPosition = scrollTarget.offsetTop - listArea.clientHeight + scrollTarget.offsetHeight + 2;
+              listArea.scrollTo({top: scrollPosition, behavior: 'instant'});
+            }
+            // console.log(currentTime);
             break;
 
           default:
@@ -237,6 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (detailSp) {
       detailSp.remove();
     }
+    autoScroll = false;
+    commentsSyncBtn.hidden = false;
     const scrollPosition = isSmallWindow() ? li.offsetTop - 2 : li.offsetTop - (listArea.clientHeight - li.offsetHeight) / 2;
     listArea.scrollTo({top: scrollPosition});
     const rawMeta = JSON.parse((li.querySelector('.raw-data').textContent));
@@ -314,5 +321,23 @@ document.addEventListener('DOMContentLoaded', () => {
     newDetailSp.insertAdjacentHTML('beforeend', dl2);
     li.insertAdjacentElement('afterend', newDetailSp);
     newSameUsers.forEach(comment => comment.classList.add('same-user'));
+  });
+
+  commentsSyncBtn.addEventListener('click', () => {
+    autoScroll = true;
+    commentsSyncBtn.hidden = true;
+    document.querySelector('.detail-sp')?.previousElementSibling.click();
+  });
+
+  listArea.addEventListener('scroll', e => {
+    if (Math.abs(scrollPosition - listArea.scrollTop) >= 3) {
+      autoScroll = false;
+      commentsSyncBtn.hidden = false;
+      console.log(false);
+    } else {
+      autoScroll = true;
+      commentsSyncBtn.hidden = true;
+      console.log(true);
+    }
   });
 });

@@ -260,13 +260,14 @@ header a {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin-bottom: 20px;
   padding-left: 0;
   list-style: none;
 }
 .list-area #comments-list > li {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   gap: 10px;
   word-break: break-all;
   overflow-wrap: break-word;
@@ -298,15 +299,35 @@ header a {
   color: inherit;
 }
 .list-area #comments-list > li .nicoru {
+  flex-shrink: 0;
   margin-left: auto;
 }
 .list-area #comments-list > li .time {
   flex-shrink: 0;
-  align-self: flex-end;
   color: #7f7f7f;
 }
 .list-area #comments-list > li.detail-sp {
   display: none;
+}
+.list-area #comments-sync {
+  display: block;
+  align-self: baseline;
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  border: 0;
+  border-radius: 20px;
+  background-color: #666666;
+  color: inherit;
+  font-size: inherit;
+  transition: all 0.5s linear;
+}
+.list-area #comments-sync[hidden] {
+  visibility: hidden;
+  opacity: 0;
 }
 @media (max-width: 1023px) {
   .list-area {

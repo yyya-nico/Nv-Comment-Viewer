@@ -269,13 +269,14 @@ header {
         display: flex;
         flex-direction: column;
         gap: 4px;
+        margin-bottom: 20px;
         padding-left: 0;
         list-style: none;
 
         >li {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-end;
             gap: 10px;
             word-break: break-all;
             overflow-wrap: break-word;
@@ -312,18 +313,39 @@ header {
             }
 
             .nicoru {
+                flex-shrink: 0;
                 margin-left: auto;
             }
 
             .time {
                 flex-shrink: 0;
-                align-self: flex-end;
                 color: #7f7f7f;
             }
 
             &.detail-sp {
                 display: none;
             }
+        }
+    }
+
+    #comments-sync {
+        display: block;
+        align-self: baseline;
+        position: sticky;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px;
+        border: 0;
+        border-radius: 20px;
+        background-color: #666666;
+        color: inherit;
+        font-size: inherit;
+        transition: all .5s linear;
+
+        &[hidden] {
+            visibility: hidden;
+            opacity: 0;
         }
     }
 
