@@ -1,5 +1,5 @@
 <?php
-if(isset($_GET['id'])) {
+if(isset($_GET['videoId'])) {
     $video_id = $_GET['videoId'];
     
     $CURLERR = NULL;
