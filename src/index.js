@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   commentsLoadForm.videoId = commentsLoadForm.elements['video-id'];
   commentsLoadForm.submitButton = commentsLoadForm.elements['submit-button'];
   const introDetails = document.querySelector('details');
+  const config = document.querySelector('.config');
   const threadSel = document.getElementById('thread');
   const commentsList = document.getElementById('comments-list');
   const commentsSyncBtn = document.getElementById('comments-sync');
@@ -124,14 +125,9 @@ document.addEventListener('DOMContentLoaded', () => {
           console.log('not comments found');
           alert('コメントがありませんでした。');
         } else {
-          const thread = commentData.data.threads.find(thread => {
-            switch (threadSel.value) {
-              case 'default':
-                return thread.fork === 'main';
-              default:
-                return thread.fork === threadSel.value;
-            }
-          });
+          threadSel.value = 'default';
+          config.hidden = false;
+          const thread = commentData.data.threads.find(thread => thread.fork === 'main');
           thread.comments.sort((a, b) => a.vposMs - b.vposMs);
           appendComments(thread.comments);
         }
