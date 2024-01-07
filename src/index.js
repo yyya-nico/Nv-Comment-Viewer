@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }).then(json => {
               newThreadKey = json.data.threadKey;
               // console.log(newThreadKey);
-              commentsLoadForm.submit();
+              commentsLoadForm.requestSubmit();
           }).catch(e => {
             console.error('Failed to load', e);
           });
