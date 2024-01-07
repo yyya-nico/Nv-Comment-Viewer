@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     commentsLoadForm.submitButton.textContent = '読み込み中...';
     commentsList.textContent = '';
     if (!nicoApiData || nicoApiData.client.watchId !== videoId) {
-      const APIURL = new URL('watch_v3.php', location.origin + defaultPath)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
+      const APIURL = new URL('watch_v3_guest.php', location.origin + defaultPath)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
       const APIParams = APIURL.searchParams;
       APIParams.append('id', videoId);
       const actionTrackId = `${random.string(10)}_${Math.floor(Date.now()/1000)}`;
@@ -136,24 +136,29 @@ document.addEventListener('DOMContentLoaded', () => {
         commentData = await response.json();
         // console.log(commentData);
         if (commentData.meta.errorCode === 'EXPIRED_TOKEN') {
-          console.error('Error:', commentData.meta.errorCode);
-          alert('エラー:' + commentData.meta.errorCode);
-          // nicoApiData = null;
-          // commentsLoadForm.submit();
-          // await fetch(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${videoId}`, {
-          //     headers: {
-          //       'X-Frontend-Id': '6',
-          //       'X-Frontend-Version': '0',
-          //       'Content-Type': 'application/json',
-          //     }
-          //   }
-          // )
-          //   .then(response => response.json())
-          //   .then(json => {
-          //     newThreadKey = json.data.threadKey;
-          //     console.log(newThreadKey);
-          //     commentsLoadForm.submit();
-          // });
+          const APIURL = new URL('v1_comment_keys_thread.php', location.origin + defaultPath)/* new URL(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${videoId}`) */;
+          const APIParams = APIURL.searchParams;
+          APIParams.append('videoId', videoId);
+          await fetch(APIURL, {
+              headers: {
+                'X-Frontend-Id': '6',
+                'X-Frontend-Version': '0',
+                'Content-Type': 'application/json',
+              }
+            }
+          ).then(async response => {
+            // console.log(response);
+            if (response.status !== 200) {
+              console.log('error or no content', response.status);
+            }
+            return response.json();
+          }).then(json => {
+              newThreadKey = json.data.threadKey;
+              // console.log(newThreadKey);
+              commentsLoadForm.submit();
+          }).catch(e => {
+            console.error('Failed to load', e);
+          });
         } else if (commentData.meta.errorCode) {
           console.error('Error:', commentData.meta.errorCode);
           alert('エラー:' + commentData.meta.errorCode);
