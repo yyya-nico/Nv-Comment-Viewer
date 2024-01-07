@@ -330,7 +330,8 @@ header {
     }
 
     #comments-sync {
-        display: block;
+        // display: block;
+        display: none;
         align-self: baseline;
         position: sticky;
         bottom: 10px;

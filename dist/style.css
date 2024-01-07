@@ -310,7 +310,7 @@ header a {
   display: none;
 }
 .list-area #comments-sync {
-  display: block;
+  display: none;
   align-self: baseline;
   position: -webkit-sticky;
   position: sticky;
