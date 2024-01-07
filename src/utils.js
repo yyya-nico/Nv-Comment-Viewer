@@ -40,4 +40,16 @@ const fromNow = posted => {
     }
 }
 
-export {scrollToBottom, htmlspecialchars, fromNow}
+const random = {
+    string(length) {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const result = Array(length).fill(null).map(() => chars[Math.floor(Math.random() * chars.length)]).join('');
+        
+        return result;
+    },
+    number(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+}
+
+export {scrollToBottom, htmlspecialchars, fromNow, random}

@@ -1,4 +1,4 @@
-import {htmlspecialchars} from './utils';
+import {htmlspecialchars, random} from './utils';
 
 document.addEventListener('DOMContentLoaded', () => {
   const listArea = document.querySelector('.list-area');
@@ -80,7 +80,37 @@ document.addEventListener('DOMContentLoaded', () => {
     commentsLoadForm.submitButton.disabled = true;
     commentsLoadForm.submitButton.textContent = '読み込み中...';
     commentsList.textContent = '';
-    if (nicoApiData) {
+    if (!nicoApiData || nicoApiData.client.watchId !== videoId) {
+      // const APIURL = new URL('watch_v3.php', location.origin + defaultPath)/* new URL(`https://www.nicovideo.jp/api/watch/v3/${videoId}`) */;
+      // const APIParams = APIURL.searchParams;
+      // APIParams.append('id', videoId);
+      // const actionTrackId = `${random.string(10)}_${random.number(10**10, 10**13)}`;
+      // APIParams.append('actionTrackId', actionTrackId);
+      // await fetch(APIURL, {
+      //   method: 'POST',
+      //   // headers: {
+      //   //   'X-Frontend-Id': '6',
+      //   //   'X-Frontend-Version': '0',
+      //   // }
+      // }).then(async response => {
+      //   // console.log(response);
+      //   if (response.status !== 200) {
+      //     console.log('error or no content', response.status);
+      //   }
+      //   data = await response.json();
+      //   // console.log(data);
+      //   if (data.meta.errorCode) {
+      //     console.error('Error:', data.meta.errorCode);
+      //     alert('エラー:' + data.meta.errorCode);
+      //   } else {
+      //     nicoApiData = data.data;
+      //   }
+      // }).catch(e => {
+      //   console.error('Failed to load', e);
+      // });
+      alert('開発中');
+      document.title = `${videoId} - ${defaultTitle}`;
+    } else {
       const nvComment = nicoApiData.comment.nvComment;
       await fetch(`${nvComment.server}/v1/threads`, {
         method: 'POST',
@@ -104,6 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (commentData.meta.errorCode === 'EXPIRED_TOKEN') {
           console.error('Error:', commentData.meta.errorCode);
           alert('エラー:' + commentData.meta.errorCode);
+          // nicoApiData = null;
+          // commentsLoadForm.submit();
           // await fetch(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${videoId}`, {
           //     headers: {
           //       'X-Frontend-Id': '6',
@@ -135,9 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Failed to load', e);
       });
       document.title = `${nicoApiData.video.title} - ${defaultTitle}`;
-    } else {
-      alert('開発中');
-      document.title = `${videoId} - ${defaultTitle}`;
     }
     history.pushState(null, '', `${defaultPath}${videoId}`);
     commentsLoadForm.submitButton.disabled = false;
