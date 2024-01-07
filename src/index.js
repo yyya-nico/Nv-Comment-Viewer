@@ -140,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       document.title = `${nicoApiData.video.title} - ${defaultTitle}`;
     } else {
+      alert('開発中');
       document.title = `${videoId} - ${defaultTitle}`;
     }
     history.pushState(null, '', `${defaultPath}${videoId}`);
