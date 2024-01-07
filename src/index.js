@@ -81,36 +81,40 @@ document.addEventListener('DOMContentLoaded', () => {
     commentsLoadForm.submitButton.textContent = '読み込み中...';
     commentsList.textContent = '';
     if (!nicoApiData || nicoApiData.client.watchId !== videoId) {
-      // const APIURL = new URL('watch_v3.php', location.origin + defaultPath)/* new URL(`https://www.nicovideo.jp/api/watch/v3/${videoId}`) */;
-      // const APIParams = APIURL.searchParams;
-      // APIParams.append('id', videoId);
-      // const actionTrackId = `${random.string(10)}_${random.number(10**10, 10**13)}`;
-      // APIParams.append('actionTrackId', actionTrackId);
-      // await fetch(APIURL, {
-      //   method: 'POST',
-      //   // headers: {
-      //   //   'X-Frontend-Id': '6',
-      //   //   'X-Frontend-Version': '0',
-      //   // }
-      // }).then(async response => {
-      //   // console.log(response);
-      //   if (response.status !== 200) {
-      //     console.log('error or no content', response.status);
-      //   }
-      //   data = await response.json();
-      //   // console.log(data);
-      //   if (data.meta.errorCode) {
-      //     console.error('Error:', data.meta.errorCode);
-      //     alert('エラー:' + data.meta.errorCode);
-      //   } else {
-      //     nicoApiData = data.data;
-      //   }
-      // }).catch(e => {
-      //   console.error('Failed to load', e);
-      // });
-      alert('開発中');
-      document.title = `${videoId} - ${defaultTitle}`;
-    } else {
+      const APIURL = new URL('watch_v3.php', location.origin + defaultPath)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
+      const APIParams = APIURL.searchParams;
+      APIParams.append('id', videoId);
+      const actionTrackId = `${random.string(10)}_${Math.floor(Date.now()/1000)}`;
+      APIParams.append('actionTrackId', actionTrackId);
+      await fetch(APIURL, {
+        method: 'POST',
+        // headers: {
+        //   'X-Frontend-Id': '6',
+        //   'X-Frontend-Version': '0',
+        // }
+      }).then(async response => {
+        // console.log(response);
+        if (response.status !== 200) {
+          console.log('error or no content', response.status);
+        }
+        const data = await response.json();
+        // console.log(data);
+        if (data.meta.errorCode === 'FORBIDDEN') {
+          console.error('Error:', data.meta.errorCode, data.data.reasonCode);
+          alert(`エラー:${data.meta.errorCode}、理由:${data.data.reasonCode}`);
+        } else if (data.meta.errorCode) {
+          console.error('Error:', data.meta.errorCode);
+          alert('エラー:' + data.meta.errorCode);
+        } else {
+          nicoApiData = data.data;
+        }
+      }).catch(e => {
+        console.error('Failed to load', e);
+      });
+      // alert('開発中');
+      // document.title = `${videoId} - ${defaultTitle}`;
+    }
+    if (nicoApiData?.client.watchId === videoId) {
       const nvComment = nicoApiData.comment.nvComment;
       await fetch(`${nvComment.server}/v1/threads`, {
         method: 'POST',
@@ -162,13 +166,13 @@ document.addEventListener('DOMContentLoaded', () => {
           const thread = commentData.data.threads.find(thread => thread.fork === 'main');
           thread.comments.sort((a, b) => a.vposMs - b.vposMs);
           appendComments(thread.comments);
+          document.title = `${nicoApiData.video.title} - ${defaultTitle}`;
+          history.pushState(null, '', `${defaultPath}${videoId}`);
         }
       }).catch(e => {
         console.error('Failed to load', e);
       });
-      document.title = `${nicoApiData.video.title} - ${defaultTitle}`;
     }
-    history.pushState(null, '', `${defaultPath}${videoId}`);
     commentsLoadForm.submitButton.disabled = false;
     commentsLoadForm.submitButton.textContent = '取得';
   }, {passive: false});
@@ -207,6 +211,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const videoId = nicoApiData.client.watchId;
             commentsLoadForm.videoId.value = videoId;
             commentsLoadForm.requestSubmit();
+            // listArea.addEventListener('scroll', e => {
+            //   if (Math.abs(scrollPosition - listArea.scrollTop) >= 3) {
+            //     autoScroll = false;
+            //     commentsSyncBtn.hidden = false;
+            //     console.log(false);
+            //   } else {
+            //     autoScroll = true;
+            //     commentsSyncBtn.hidden = true;
+            //     console.log(true);
+            //   }
+            // });
             // console.log(e.data);
             break;
 
@@ -268,8 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (detailSp) {
       detailSp.remove();
     }
-    autoScroll = false;
-    commentsSyncBtn.hidden = false;
+    // autoScroll = false;
+    // commentsSyncBtn.hidden = false;
     const scrollPosition = isSmallWindow() ? li.offsetTop - 2 : li.offsetTop - (listArea.clientHeight - li.offsetHeight) / 2;
     listArea.scrollTo({top: scrollPosition});
     const rawMeta = JSON.parse((li.querySelector('.raw-data').textContent));
@@ -353,17 +368,5 @@ document.addEventListener('DOMContentLoaded', () => {
     autoScroll = true;
     commentsSyncBtn.hidden = true;
     document.querySelector('.detail-sp')?.previousElementSibling.click();
-  });
-
-  listArea.addEventListener('scroll', e => {
-    if (Math.abs(scrollPosition - listArea.scrollTop) >= 3) {
-      autoScroll = false;
-      commentsSyncBtn.hidden = false;
-      console.log(false);
-    } else {
-      autoScroll = true;
-      commentsSyncBtn.hidden = true;
-      console.log(true);
-    }
   });
 });
