@@ -107,12 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
           alert('エラー:' + data.meta.errorCode);
         } else {
           nicoApiData = data.data;
+          newThreadKey = null;
         }
       }).catch(e => {
         console.error('Failed to load', e);
       });
-      // alert('開発中');
-      // document.title = `${videoId} - ${defaultTitle}`;
     }
     if (nicoApiData?.client.watchId === videoId) {
       const nvComment = nicoApiData.comment.nvComment;
