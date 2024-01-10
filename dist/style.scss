@@ -97,6 +97,10 @@ label {
     display: block;
 }
 
+input[type="checkbox"] {
+    accent-color: #66ccff;
+}
+
 input[type="range"] {
     height: 2px;
     background-color: #e5e5e5;
@@ -260,6 +264,15 @@ header {
         }
     }
 
+    .config {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        padding: 10px;
+        box-shadow: 0 0 8px 0 #000000;
+        background-color: color-mix(in srgb, #1f1f1f 80%, transparent);
+    }
+
     .comments {
         display: flex;
         flex-direction: column;
@@ -270,9 +283,12 @@ header {
         display: flex;
         flex-direction: column;
         gap: 4px;
-        // margin-bottom: 20px;
         padding-left: 0;
         list-style: none;
+
+        :has(+#comments-sync:not([hidden])) {
+            margin-bottom: 20px;
+        }
 
         >li {
             display: flex;
@@ -330,8 +346,7 @@ header {
     }
 
     #comments-sync {
-        // display: block;
-        display: none;
+        display: block;
         align-self: baseline;
         position: sticky;
         bottom: 10px;

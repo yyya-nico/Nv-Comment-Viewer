@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const introDetails = document.querySelector('details');
   const config = document.querySelector('.config');
   const threadSel = document.getElementById('thread');
+  const nicoAdWrapper = document.querySelector('.nico-ad');
+  const nicoAd = document.getElementById('nico-ad');
   const commentsList = document.getElementById('comments-list');
   const commentsSyncBtn = document.getElementById('comments-sync');
   const detailPc = document.querySelector('.detail-pc');
@@ -18,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const isSmallWindow = () => window.innerWidth < 1024;
   let nicoApiData = null;
   let commentData = null;
+  let audible = false;
   let timeIndex = [];
   let autoScroll = true;
   let scrollPosition = 0;
@@ -72,15 +75,19 @@ document.addEventListener('DOMContentLoaded', () => {
   let newThreadKey = null;
   commentsLoadForm.addEventListener('submit', async e => {
     e.preventDefault();
+    commentsLoadForm.submitButton.disabled = true;
+    commentsLoadForm.submitButton.textContent = '読み込み中...';
+    commentsList.textContent = '';
     let inputedStr = commentsLoadForm.videoId.value;
     const cutStart = inputedStr.lastIndexOf('/') + 1;
     const cutEnd = inputedStr.includes('?') ? inputedStr.indexOf('?') : undefined;
     const videoId = inputedStr.slice(cutStart, cutEnd);
     commentsLoadForm.videoId.value = videoId;
-    commentsLoadForm.submitButton.disabled = true;
-    commentsLoadForm.submitButton.textContent = '読み込み中...';
-    commentsList.textContent = '';
     if (!nicoApiData || nicoApiData.client.watchId !== videoId) {
+      if (audible && nicoApiData.client.watchId !== videoId) {
+        audible = false;
+        nicoAdWrapper.hidden = true;
+      }
       const APIURL = new URL('watch_v3_guest.php', location.origin + defaultPath)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
       const APIParams = APIURL.searchParams;
       APIParams.append('id', videoId);
@@ -210,35 +217,44 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.origin === 'https://www.nicovideo.jp') {
       switch (e.data.eventName) {
           case 'sendData':
+            audible = true;
             introDetails.open = false;
+            nicoAdWrapper.hidden = false;
             nicoApiData = e.data.data;
             const videoId = nicoApiData.client.watchId;
             commentsLoadForm.videoId.value = videoId;
             commentsLoadForm.requestSubmit();
-            // listArea.addEventListener('scroll', e => {
-            //   if (Math.abs(scrollPosition - listArea.scrollTop) >= 3) {
-            //     autoScroll = false;
-            //     commentsSyncBtn.hidden = false;
-            //     console.log(false);
-            //   } else {
-            //     autoScroll = true;
-            //     commentsSyncBtn.hidden = true;
-            //     console.log(true);
-            //   }
-            // });
+            listArea.addEventListener('scroll', e => {
+              if (audible) {
+                if (Math.abs(scrollPosition - listArea.scrollTop) >= 3) {
+                  autoScroll = false;
+                  commentsSyncBtn.hidden = false;
+                  // console.log(false);
+                } else {
+                  autoScroll = true;
+                  commentsSyncBtn.hidden = true;
+                  // console.log(true);
+                }
+              } else {
+                commentsSyncBtn.hidden = true;
+              }
+            });
             // console.log(e.data);
             break;
 
           case 'playerMetadataChange':
-            const currentTime = e.data.data.currentTime;
             if (autoScroll) {
+              const duration = nicoApiData.video.duration;
+              const progressPercentage = e.data.data.progressPercentage;
+              const isIncludeNicoAd = nicoAd.checked;
+              const currentTime = Math.floor((duration + (isIncludeNicoAd ? 10 : 0)) * 1000 * progressPercentage);
               const nextItemIndex = timeIndex.findIndex(val => val > currentTime);
               // console.log(nextItemIndex);
               const scrollTarget = commentsList.children[nextItemIndex];
               scrollPosition = scrollTarget.offsetTop - listArea.clientHeight + scrollTarget.offsetHeight + 2;
               listArea.scrollTo({top: scrollPosition, behavior: 'instant'});
+              // console.log(currentTime);
             }
-            // console.log(currentTime);
             break;
 
           default:
@@ -289,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // autoScroll = false;
     // commentsSyncBtn.hidden = false;
-    const scrollPosition = isSmallWindow() ? li.offsetTop - 2 : li.offsetTop - (listArea.clientHeight - li.offsetHeight) / 2;
+    const scrollPosition = isSmallWindow() ? li.offsetTop - 2 - config.offsetHeight - 10 : li.offsetTop - (listArea.clientHeight - li.offsetHeight) / 2;
     listArea.scrollTo({top: scrollPosition});
     const rawMeta = JSON.parse((li.querySelector('.raw-data').textContent));
     const dl = document.createElement('dl');

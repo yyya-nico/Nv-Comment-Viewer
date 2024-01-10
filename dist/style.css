@@ -93,6 +93,10 @@ label {
   display: block;
 }
 
+input[type=checkbox] {
+  accent-color: #66ccff;
+}
+
 input[type=range] {
   height: 2px;
   background-color: #e5e5e5;
@@ -252,6 +256,15 @@ header a {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+.list-area .config {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 10px;
+  box-shadow: 0 0 8px 0 #000000;
+  background-color: color-mix(in srgb, #1f1f1f 80%, transparent);
+}
 .list-area .comments {
   display: flex;
   flex-direction: column;
@@ -263,6 +276,9 @@ header a {
   gap: 4px;
   padding-left: 0;
   list-style: none;
+}
+.list-area #comments-list :has(+ #comments-sync:not([hidden])) {
+  margin-bottom: 20px;
 }
 .list-area #comments-list > li {
   display: flex;
@@ -310,7 +326,7 @@ header a {
   display: none;
 }
 .list-area #comments-sync {
-  display: none;
+  display: block;
   align-self: baseline;
   position: -webkit-sticky;
   position: sticky;
