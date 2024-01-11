@@ -4,8 +4,3 @@ RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . index.html [L]
-
-<If "%{REQUEST_FILENAME} != -f && %{REQUEST_FILENAME} != -d">
-    Header set Pragma no-cache
-    Header set Cache-Control no-cache
-</If>
