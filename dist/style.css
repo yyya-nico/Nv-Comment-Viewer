@@ -59,11 +59,27 @@ body {
   scroll-behavior: smooth;
 }
 
-a {
+a:-webkit-any-link {
   color: #66ccff;
   text-decoration: none;
 }
-a:hover {
+
+a:-moz-any-link {
+  color: #66ccff;
+  text-decoration: none;
+}
+
+a:any-link {
+  color: #66ccff;
+  text-decoration: none;
+}
+a:-webkit-any-link:hover {
+  text-decoration: underline;
+}
+a:-moz-any-link:hover {
+  text-decoration: underline;
+}
+a:any-link:hover {
   text-decoration: underline;
 }
 
@@ -209,7 +225,13 @@ header {
   word-break: break-all;
   text-overflow: ellipsis;
 }
-header a {
+header a:-webkit-any-link {
+  color: inherit;
+}
+header a:-moz-any-link {
+  color: inherit;
+}
+header a:any-link {
   color: inherit;
 }
 
@@ -261,9 +283,19 @@ header a {
   position: sticky;
   top: 0;
   z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
   padding: 10px;
   box-shadow: 0 0 8px 0 #000000;
   background-color: color-mix(in srgb, #1f1f1f 80%, transparent);
+}
+.list-area .config[hidden] {
+  display: none;
+}
+.list-area .config .nico-ad small {
+  color: rgba(239, 239, 239, 0.6);
 }
 .list-area .comments {
   display: flex;

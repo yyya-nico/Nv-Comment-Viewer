@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const introDetails = document.querySelector('details');
   const config = document.querySelector('.config');
   const threadSel = document.getElementById('thread');
+  const watchLink = document.querySelector('.watch-link a');
   const nicoAdWrapper = document.querySelector('.nico-ad');
   const nicoAd = document.getElementById('nico-ad');
   const commentsList = document.getElementById('comments-list');
@@ -83,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cutEnd = inputedStr.includes('?') ? inputedStr.indexOf('?') : undefined;
     const videoId = inputedStr.slice(cutStart, cutEnd);
     commentsLoadForm.videoId.value = videoId;
+    watchLink.href = `https://nico.ms/${videoId}`;
     if (!nicoApiData || nicoApiData.client.watchId !== videoId) {
       if (audible && nicoApiData.client.watchId !== videoId) {
         audible = false;

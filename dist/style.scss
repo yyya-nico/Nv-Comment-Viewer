@@ -61,7 +61,7 @@ body {
     scroll-behavior: smooth;
 }
 
-a {
+a:any-link {
     color: #66ccff;
     text-decoration: none;
 
@@ -206,7 +206,7 @@ header {
     word-break: break-all;
     text-overflow: ellipsis;
 
-    a {
+    a:any-link {
         color: inherit;
     }
 }
@@ -268,9 +268,23 @@ header {
         position: sticky;
         top: 0;
         z-index: 1;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
         padding: 10px;
         box-shadow: 0 0 8px 0 #000000;
         background-color: color-mix(in srgb, #1f1f1f 80%, transparent);
+
+        &[hidden] {
+            display: none;
+        }
+
+        .nico-ad {
+            small {
+                color: #efefef99;
+            }
+        }
     }
 
     .comments {
