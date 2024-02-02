@@ -391,4 +391,11 @@ document.addEventListener('DOMContentLoaded', () => {
     commentsSyncBtn.hidden = true;
     document.querySelector('.detail-sp')?.previousElementSibling.click();
   });
+
+  window.opener && document.addEventListener('keydown', e => {
+    window.opener?.postMessage({
+        eventName: 'keyDown',
+        data: e
+    }, origin);
+  });
 });
