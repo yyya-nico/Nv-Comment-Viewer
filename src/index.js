@@ -396,6 +396,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.opener?.postMessage({
         eventName: 'keyDown',
         data: e
-    }, origin);
+    }, 'https://www.nicovideo.jp');
   });
 });
