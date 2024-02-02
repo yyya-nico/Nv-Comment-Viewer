@@ -393,9 +393,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   window.opener && document.addEventListener('keydown', e => {
-    window.opener?.postMessage({
-        eventName: 'keyDown',
-        data: e
-    }, 'https://www.nicovideo.jp');
+    const sendTargetKeys = ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', ' '];
+    const matched = sendTargetKeys.some(key => key === e.key);
+    if (matched) {
+      e.preventDefault();
+      window.opener?.postMessage({
+          eventName: 'keyDown',
+          data: e.key
+      }, 'https://www.nicovideo.jp');
+    }
   });
 });
