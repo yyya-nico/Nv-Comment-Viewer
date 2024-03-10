@@ -8,14 +8,15 @@ if(isset($_GET['id']) && isset($_GET['actionTrackId'])) {
     $url = 'https://www.nicovideo.jp/api/watch/v3_guest/'.$video_id.'?actionTrackId='.$track_id;
 
     $header = array(        
-        'X-Frontend-Id: 6',
-        'X-Frontend-Version: 0'
+        'X-Frontend-Id: ',
+        'X-Frontend-Version: '
     );
 
     $ch = curl_init($url);
 
     curl_setopt($ch, CURLOPT_POST, TRUE);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Nv-Comment-Viewer/1.0 (https://yyya-nico.co/nv_comment_viewer/; info@yyya-nico.co)');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     $html = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
@@ -31,6 +32,10 @@ if(isset($_GET['id']) && isset($_GET['actionTrackId'])) {
     } else {
         header('Content-Type: application/json');
         header('HTTP/2 '.$http_code);
+        if ($http_code == 302) {
+            $redirect_url = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+            echo '{"redirect": "'.$redirect_url.'"}';
+        }
     }
     curl_close($ch);
     echo $html;

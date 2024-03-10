@@ -128,8 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Frontend-Id': '6',
-          'X-Frontend-Version': '0',
+          'X-Frontend-Id': '',
+          'X-Frontend-Version': '',
         },
         body: JSON.stringify({
           params: nvComment.params,
@@ -148,11 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
           const APIParams = APIURL.searchParams;
           APIParams.append('videoId', videoId);
           await fetch(APIURL, {
-              headers: {
-                'X-Frontend-Id': '6',
-                'X-Frontend-Version': '0',
-                'Content-Type': 'application/json',
-              }
+              // headers: {
+              //   'X-Frontend-Id': '',
+              //   'X-Frontend-Version': '',
+              //   'Content-Type': 'application/json',
+              // }
             }
           ).then(async response => {
             // console.log(response);
