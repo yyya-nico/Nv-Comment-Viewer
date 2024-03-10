@@ -98,8 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
       await fetch(APIURL, {
         method: 'POST',
         // headers: {
-        //   'X-Frontend-Id': '6',
-        //   'X-Frontend-Version': '0',
+        //   'X-Frontend-Id': '',
+        //   'X-Frontend-Version': '',
         // }
       }).then(async response => {
         // console.log(response);
