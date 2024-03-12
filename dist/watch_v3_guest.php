@@ -8,8 +8,8 @@ if(isset($_GET['id']) && isset($_GET['actionTrackId'])) {
     $url = 'https://www.nicovideo.jp/api/watch/v3_guest/'.$video_id.'?actionTrackId='.$track_id;
 
     $header = array(        
-        'X-Frontend-Id: ',
-        'X-Frontend-Version: '
+        'X-Frontend-Id: 1',
+        'X-Frontend-Version: 0'
     );
 
     $ch = curl_init($url);

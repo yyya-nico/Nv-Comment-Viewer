@@ -98,8 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
       await fetch(APIURL, {
         method: 'POST',
         // headers: {
-        //   'X-Frontend-Id': '',
-        //   'X-Frontend-Version': '',
+        //   'X-Frontend-Id': '1',
+        //   'X-Frontend-Version': '0',
         // }
       }).then(async response => {
         // console.log(response);
@@ -128,8 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Frontend-Id': '',
-          'X-Frontend-Version': '',
+          'X-Frontend-Id': '1',
+          'X-Frontend-Version': '0',
         },
         body: JSON.stringify({
           params: nvComment.params,
@@ -149,8 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
           APIParams.append('videoId', videoId);
           await fetch(APIURL, {
               // headers: {
-              //   'X-Frontend-Id': '',
-              //   'X-Frontend-Version': '',
+              //   'X-Frontend-Id': '1',
+              //   'X-Frontend-Version': '0',
               //   'Content-Type': 'application/json',
               // }
             }

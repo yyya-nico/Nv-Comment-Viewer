@@ -7,8 +7,8 @@ if(isset($_GET['videoId'])) {
     $url = 'https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId='.$video_id;
 
     $header = array(        
-        'X-Frontend-Id: ',
-        'X-Frontend-Version: ',
+        'X-Frontend-Id: 1',
+        'X-Frontend-Version: 0',
         'Content-Type: application/json'
     );
 
