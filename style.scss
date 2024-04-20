@@ -212,7 +212,7 @@ header {
 }
 
 @function contentAreaHeight($unit) {
-    @return calc(100#{$unit} - var(--header-height));
+    @return calc(#{100 + $unit} - var(--header-height));
 }
 
 .wrap {

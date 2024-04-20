@@ -1,3 +1,5 @@
+import './style.scss'
+
 import {htmlspecialchars, random} from './utils';
 
 document.addEventListener('DOMContentLoaded', () => {
