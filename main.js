@@ -50,8 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else */ if (baseDate.getUTCDate() - 1) {
           baseDate.setUTCMonth(baseDate.getUTCDate() - 2);
           return baseDate.toLocaleString([], {timeZone: 'UTC', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 2});
-        } else {
+        } else if (baseDate.getUTCHours()) {
           return baseDate.toLocaleString([], {timeZone: 'UTC', hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 2});
+        } else {
+          return baseDate.toLocaleString([], {timeZone: 'UTC', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 2});
         }
       })(new Date(Number(comment.vposMs)))
     };
