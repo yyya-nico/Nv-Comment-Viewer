@@ -1,3 +1,3 @@
 export default {
-    base: './'
+    base: '/nv_comment_viewer/'
 }
