@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /nv_comment_viewer/
+RewriteBase /nv-comment-viewer/
 RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
