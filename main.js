@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const buttonJudgement = () => commentsLoadForm.submitButton.disabled = !commentsLoadForm.checkValidity();
 
   commentsLoadForm.addEventListener('input', buttonJudgement);
-  
+
   const makeHTMLFromComment = comment => {
     const formatted = {
       text: htmlspecialchars(comment.body).replace(/\n/g, '<br>'),
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       })(new Date(Number(comment.vposMs)))
     };
-    const html = 
+    const html =
     `<li data-id="${comment.id}" data-user-id="${comment.userId}">
       <span class="text">${formatted.text}</span><span class="nicoru">${formatted.nicoru}</span><span class="time">${formatted.time}</span>
       <script type="application/json" class="raw-data">${JSON.stringify(comment)}</script>
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         audible = false;
         nicoAdWrapper.hidden = true;
       }
-      const APIURL = new URL('watch_v3_guest.php', location.origin + defaultPath)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
+      const APIURL = new URL('watch_v3_guest', location.origin + defaultPath)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
       const APIParams = APIURL.searchParams;
       APIParams.append('id', videoId);
       const actionTrackId = `${random.string(10)}_${Math.floor(Date.now()/1000)}`;
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         commentData = await response.json();
         // console.log(commentData);
         if (commentData.meta.errorCode === 'EXPIRED_TOKEN') {
-          const APIURL = new URL('v1_comment_keys_thread.php', location.origin + defaultPath)/* new URL(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${videoId}`) */;
+          const APIURL = new URL('v1_comment_keys_thread', location.origin + defaultPath)/* new URL(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${videoId}`) */;
           const APIParams = APIURL.searchParams;
           APIParams.append('videoId', videoId);
           await fetch(APIURL, {
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
       case 'visible':
         window.opener?.postMessage({
           eventName: 'returned',
-        }, 'https://www.nicovideo.jp');        
+        }, 'https://www.nicovideo.jp');
         break;
     }
   });
