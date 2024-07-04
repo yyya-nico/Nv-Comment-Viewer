@@ -17,9 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const commentsSyncBtn = document.getElementById('comments-sync');
   const detailPc = document.querySelector('.detail-pc');
   const defaultTitle = document.title;
-  const cutIndex = location.pathname.lastIndexOf('/') + 1;
-  const defaultPath = location.pathname.slice(0 , cutIndex);
-  const videoIdCandidate = location.pathname.slice(cutIndex);
+  const defaultPath = location.pathname;
+  const videoIdCandidate = location.search.slice(1);
   const isSmallWindow = () => window.innerWidth < 1024;
   let nicoApiData = null;
   let commentData = null;
@@ -94,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         audible = false;
         nicoAdWrapper.hidden = true;
       }
-      const APIURL = new URL('watch_v3_guest', location.origin + defaultPath)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
+      const APIURL = new URL('watch_v3_guest', defaultPath)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
       const APIParams = APIURL.searchParams;
       APIParams.append('id', videoId);
       const actionTrackId = `${random.string(10)}_${Math.floor(Date.now()/1000)}`;
@@ -148,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         commentData = await response.json();
         // console.log(commentData);
         if (commentData.meta.errorCode === 'EXPIRED_TOKEN') {
-          const APIURL = new URL('v1_comment_keys_thread', location.origin + defaultPath)/* new URL(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${videoId}`) */;
+          const APIURL = new URL('v1_comment_keys_thread', defaultPath)/* new URL(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${videoId}`) */;
           const APIParams = APIURL.searchParams;
           APIParams.append('videoId', videoId);
           await fetch(APIURL, {
@@ -184,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
           thread.comments.sort((a, b) => a.vposMs - b.vposMs);
           appendComments(thread.comments);
           document.title = `${nicoApiData.video.title} - ${defaultTitle}`;
-          history.pushState(null, '', `${defaultPath}${videoId}`);
+          history.pushState(null, '', `${defaultPath}?${videoId}`);
         }
       }).catch(e => {
         console.error('Failed to load', e);
