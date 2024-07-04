@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const detailPc = document.querySelector('.detail-pc');
   const defaultTitle = document.title;
   const defaultPath = location.pathname;
+  const base = `${location.origin}${defaultPath}/`;
   const videoIdCandidate = location.search.slice(1);
   const isSmallWindow = () => window.innerWidth < 1024;
   let nicoApiData = null;
@@ -93,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         audible = false;
         nicoAdWrapper.hidden = true;
       }
-      const APIURL = new URL('watch_v3_guest', defaultPath)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
+      const APIURL = new URL('watch_v3_guest', base)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
       const APIParams = APIURL.searchParams;
       APIParams.append('id', videoId);
       const actionTrackId = `${random.string(10)}_${Math.floor(Date.now()/1000)}`;
@@ -147,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         commentData = await response.json();
         // console.log(commentData);
         if (commentData.meta.errorCode === 'EXPIRED_TOKEN') {
-          const APIURL = new URL('v1_comment_keys_thread', defaultPath)/* new URL(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${videoId}`) */;
+          const APIURL = new URL('v1_comment_keys_thread', base)/* new URL(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${videoId}`) */;
           const APIParams = APIURL.searchParams;
           APIParams.append('videoId', videoId);
           await fetch(APIURL, {
