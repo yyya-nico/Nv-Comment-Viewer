@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const commentsSyncBtn = document.getElementById('comments-sync');
   const detailPc = document.querySelector('.detail-pc');
   const defaultTitle = document.title;
-  const defaultPath = location.pathname;
+  const defaultPath = '/nv-comment-viewer';
+  const videoIdCandidate = location.pathname.replace(defaultPath, '').slice(1);
   const base = `${location.origin}${defaultPath}/`;
-  const videoIdCandidate = location.search.slice(1);
   const isSmallWindow = () => window.innerWidth < 1024;
   let nicoApiData = null;
   let commentData = null;
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
           thread.comments.sort((a, b) => a.vposMs - b.vposMs);
           appendComments(thread.comments);
           document.title = `${nicoApiData.video.title} - ${defaultTitle}`;
-          history.pushState(null, '', `${defaultPath}?${videoId}`);
+          history.pushState(null, '', `${defaultPath}/${videoId}`);
         }
       }).catch(e => {
         console.error('Failed to load', e);
