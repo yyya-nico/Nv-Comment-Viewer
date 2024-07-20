@@ -1,20 +1,13 @@
 <?php
-if(isset($_GET['videoId'])) {
-    $video_id = $_GET['videoId'];
-    
+if(isset($_GET['id'])) {
+    $video_id = $_GET['id'];
+
     $CURLERR = NULL;
 
-    $url = 'https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId='.$video_id;
-
-    $header = array(        
-        'X-Frontend-Id: 1',
-        'X-Frontend-Version: 0',
-        'Content-Type: application/json'
-    );
+    $url = 'https://nvapi.nicovideo.jp/v1/tmp/comments/'.$video_id.'?_frontendId=6&_frontendVersion=0.0.0';
 
     $ch = curl_init($url);
 
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
     curl_setopt($ch, CURLOPT_USERAGENT, 'Nv-Comment-Viewer/1.0 (https://yyya-nico.co/nv_comment_viewer/; info@yyya-nico.co)');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     $html = curl_exec($ch);

@@ -1,21 +1,13 @@
 <?php
-if(isset($_GET['id']) && isset($_GET['actionTrackId'])) {
+if(isset($_GET['id'])) {
     $video_id = $_GET['id'];
-    $track_id = $_GET['actionTrackId'];
-    
+
     $CURLERR = NULL;
 
-    $url = 'https://www.nicovideo.jp/api/watch/v3_guest/'.$video_id.'?actionTrackId='.$track_id;
-
-    $header = array(        
-        'X-Frontend-Id: 1',
-        'X-Frontend-Version: 0'
-    );
+    $url = 'https://www.nicovideo.jp/api/watch/tmp/'.$video_id.'?_frontendId=6&_frontendVersion=0.0.0';
 
     $ch = curl_init($url);
 
-    curl_setopt($ch, CURLOPT_POST, TRUE);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
     curl_setopt($ch, CURLOPT_USERAGENT, 'Nv-Comment-Viewer/1.0 (https://yyya-nico.co/nv_comment_viewer/; info@yyya-nico.co)');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     $html = curl_exec($ch);
