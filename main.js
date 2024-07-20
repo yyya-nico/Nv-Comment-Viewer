@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.meta.status !== 200) {
           console.error('Error:', data.meta.status);
           console.dir(data.meta);
-          alert('エラー:' + data.meta.status);
+          alert('エラー:' + data.meta.errorCode);
         } else {
           commentsData = data.data;
         }
