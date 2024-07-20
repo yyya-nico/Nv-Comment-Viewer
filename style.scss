@@ -250,7 +250,7 @@ header {
 
         >* {
             height: 100%;
-        }  
+        }
 
         #video-id {
             flex-shrink: 0;
@@ -333,7 +333,7 @@ header {
                 &:hover {
                     background-color: #2e93ff;
                 }
-    
+
                 &:active {
                     background-color: #5baaff;
                 }
@@ -395,7 +395,7 @@ header {
                     animation-name: expand;
                     animation-direction: normal;
                     cursor: default;
-    
+
                     &:hover,
                     &:active {
                         background-color: #333333;
@@ -452,6 +452,6 @@ header {
     }
 
     to {
-        max-height: 1000px;
+        max-height: 500px;
     }
 }
