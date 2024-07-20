@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // console.log('comment count:', commentsList.querySelectorAll('li').length);
   }
 
-  let newThreadKey = null;
   commentsLoadForm.addEventListener('submit', async e => {
     e.preventDefault();
     commentsLoadForm.submitButton.disabled = true;
