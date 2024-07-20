@@ -215,8 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
         case 'command':
           value |= '(なし)';
+          break;
         case 'userId':
-          !rawMeta.commands.includes('184') && (value = `<a href="https://nico.ms/user/${rawMeta.userId}" target="_blank">${value}</a>`);
+          !rawMeta.command.includes('184') && (value = `<a href="https://nico.ms/user/${rawMeta.userId}" target="_blank">${value}</a>`);
           break;
         case 'isPremium':
         case 'isMyPost':
