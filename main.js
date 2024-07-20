@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'});
           break;
         case 'command':
-          value |= '(なし)';
+          value ||= '(なし)';
           break;
         case 'userId':
           !rawMeta.command.includes('184') && (value = `<a href="https://nico.ms/user/${rawMeta.userId}" target="_blank">${value}</a>`);
