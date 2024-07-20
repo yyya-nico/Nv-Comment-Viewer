@@ -127,13 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }).catch(e => {
         console.error('Failed to load', e);
       });
-      if (!commentsData.data.comments.length) {
+      if (!commentsData.comments.length) {
         console.log('not comments found');
         alert('コメントがありませんでした。');
       } else {
         config.hidden = false;
-        commentsData.data.comments.sort((a, b) => a.vposMsec - b.vposMsec);
-        appendComments(commentsData.data.comments);
+        commentsData.comments.sort((a, b) => a.vposMsec - b.vposMsec);
+        appendComments(commentsData.comments);
         document.title = `${nicoApiData.video.title} - ${defaultTitle}`;
         history.pushState(null, '', `${defaultPath}/${videoId}`);
       }
