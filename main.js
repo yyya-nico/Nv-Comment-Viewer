@@ -31,8 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const makeHTMLFromComment = comment => {
     const formatted = {
-      text: htmlspecialchars(comment.body).replace(/\n/g, '<br>'),
-      nicoru: comment.nicoruCount !== 0 ? comment.nicoruCount : '',
+      text: htmlspecialchars(comment.message).replace(/\n/g, '<br>'),
       time: ((baseDate) => {
         /* if (baseDate.getUTCFullYear() - 1970) {
           baseDate.setUTCFullYear(baseDate.getUTCFullYear() - 1970);
@@ -51,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
       })(new Date(Number(comment.vposMsec)))
     };
     const html =
-    `<li data-id="${comment.id}" data-user-id="${comment.userId}">
-      <span class="text">${formatted.text}</span><span class="nicoru">${formatted.nicoru}</span><span class="time">${formatted.time}</span>
+    `<li data-id="${comment.id}">
+      <span class="text">${formatted.text}</span><span class="time">${formatted.time}</span>
       <script type="application/json" class="raw-data">${JSON.stringify(comment)}</script>
     </li>
     `;
@@ -229,23 +228,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     dl.innerHTML = html;
     const commentItems = commentsList.children;
-    const newSameUsers = [...commentItems].filter(comment => comment.dataset.userId === rawMeta.userId);
-    const numberOfCommentsFromSameUser = newSameUsers.findIndex(comment => comment.dataset.id === rawMeta.id) + 1;
-    const dl2 =
-    `<dl>
-      <dt>コメント回数</dt>
-      <dd>${numberOfCommentsFromSameUser}回目/全${newSameUsers.length}回中</dd>
-    </dl>
-    `;
+    const newSameUser = [...commentItems].find(comment => comment.dataset.id === rawMeta.id);
     detailPc.appendChild(dl.cloneNode(true));
-    detailPc.appendChild(document.createElement('hr'));
-    detailPc.insertAdjacentHTML('beforeend', dl2);
     const newDetailSp = document.createElement('li');
     newDetailSp.classList.add('detail-sp');
     newDetailSp.appendChild(dl);
-    newDetailSp.appendChild(document.createElement('hr'));
-    newDetailSp.insertAdjacentHTML('beforeend', dl2);
     li.insertAdjacentElement('afterend', newDetailSp);
-    newSameUsers.forEach(comment => comment.classList.add('same-user'));
+    newSameUser.classList.add('same-user');
   });
 });
