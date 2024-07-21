@@ -232,10 +232,20 @@ document.addEventListener('DOMContentLoaded', () => {
     dl.innerHTML = html;
     const commentItems = commentsList.children;
     const newSameUser = [...commentItems].find(comment => comment.dataset.id === rawMeta.id);
+    const dl2 =
+    `<dl>
+      <dt>コメント数</dt>
+      <dd>${commentItems.length}コメ</dd>
+    </dl>
+    `;
     detailPc.appendChild(dl.cloneNode(true));
+    detailPc.appendChild(document.createElement('hr'));
+    detailPc.insertAdjacentHTML('beforeend', dl2);
     const newDetailSp = document.createElement('li');
     newDetailSp.classList.add('detail-sp');
     newDetailSp.appendChild(dl);
+    newDetailSp.appendChild(document.createElement('hr'));
+    newDetailSp.insertAdjacentHTML('beforeend', dl2);
     li.insertAdjacentElement('afterend', newDetailSp);
     newSameUser.classList.add('same-user');
   });
