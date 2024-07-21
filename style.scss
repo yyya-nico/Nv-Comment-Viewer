@@ -171,17 +171,21 @@ details {
     background-color: #232323;
     box-shadow: 0 0 8px 0 #000000;
 
-    summary {
+    >summary {
         padding: 10px;
         background-color: #323232;
         cursor: pointer;
         user-select: none;
     }
 
-    p,
-    div,
+    >p,
+    >div {
+        margin: 0;
+        padding: 10px;
+    }
+
     details {
-        margin: 10px;
+        margin: 0 10px 10px;
     }
 }
 
@@ -246,7 +250,7 @@ header {
 
         >* {
             height: 100%;
-        }
+        }  
 
         #video-id {
             flex-shrink: 0;
@@ -329,7 +333,7 @@ header {
                 &:hover {
                     background-color: #2e93ff;
                 }
-
+    
                 &:active {
                     background-color: #5baaff;
                 }
@@ -391,7 +395,7 @@ header {
                     animation-name: expand;
                     animation-direction: normal;
                     cursor: default;
-
+    
                     &:hover,
                     &:active {
                         background-color: #333333;
@@ -448,6 +452,6 @@ header {
     }
 
     to {
-        max-height: 500px;
+        max-height: 1000px;
     }
 }
