@@ -171,21 +171,17 @@ details {
     background-color: #232323;
     box-shadow: 0 0 8px 0 #000000;
 
-    >summary {
+    summary {
         padding: 10px;
         background-color: #323232;
         cursor: pointer;
         user-select: none;
     }
 
-    >p,
-    >div {
-        margin: 0;
-        padding: 10px;
-    }
-
+    p,
+    div,
     details {
-        margin: 0 10px 10px;
+        margin: 10px;
     }
 }
 
