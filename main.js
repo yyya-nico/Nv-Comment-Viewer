@@ -3,7 +3,7 @@ import './style.scss'
 import {htmlspecialchars, random} from './utils';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const listArea = document.querySelector('.list-area');
+  const header = document.querySelector('header');
   const commentsLoadForm = document.forms['comments-load'];
   commentsLoadForm.videoId = commentsLoadForm.elements['video-id'];
   commentsLoadForm.submitButton = commentsLoadForm.elements['submit-button'];
@@ -172,8 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // autoScroll = false;
     // commentsSyncBtn.hidden = false;
-    const scrollPosition = isSmallWindow() ? li.offsetTop - 2 - config.offsetHeight - 10 : li.offsetTop - (listArea.clientHeight - li.offsetHeight) / 2;
-    listArea.scrollTo({top: scrollPosition});
+    const scrollPosition = isSmallWindow() ? li.offsetTop - 2 - 10 : li.offsetTop - (window.innerHeight - header.offsetHeight - li.offsetHeight) / 2;
+    window.scrollTo({top: scrollPosition});
     const rawMeta = JSON.parse((li.querySelector('.raw-data').textContent));
     const dl = document.createElement('dl');
     const descList = {

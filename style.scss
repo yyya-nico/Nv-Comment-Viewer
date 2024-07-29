@@ -19,6 +19,10 @@ body {
     overscroll-behavior: contain;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 html,
 html * {
     scrollbar-color: var(--scrollbarHandle) transparent;
@@ -58,7 +62,6 @@ body {
     font-family: 'Noto Sans JP', sans-serif;
     font-weight: 400;
     line-height: 1.6;
-    scroll-behavior: smooth;
 }
 
 a:any-link {
@@ -192,6 +195,9 @@ blockquote {
 }
 
 header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
     overflow: hidden;
     height: var(--header-height);
     padding: 15px 12.5px;
@@ -219,8 +225,6 @@ header {
 .list-area {
     position: relative;
     width: 100%;
-    height: contentAreaHeight(vh);
-    height: contentAreaHeight(dvh);
     padding: 0 10px;
     overflow-y: auto;
     scroll-behavior: smooth;
@@ -281,7 +285,6 @@ header {
     .comments {
         display: flex;
         flex-direction: column;
-        background-color: #1f1f1fcc;
     }
 
     #comments-list {
