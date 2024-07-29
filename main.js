@@ -44,8 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
           return baseDate.toLocaleString([], {timeZone: 'UTC', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 2});
         } else if (baseDate.getUTCHours()) {
           return baseDate.toLocaleString([], {timeZone: 'UTC', hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 2});
-        } else {
+        } else if (baseDate.getUTCMinutes()) {
           return baseDate.toLocaleString([], {timeZone: 'UTC', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 2});
+        } else {
+          return baseDate.toLocaleString([], {timeZone: 'UTC', second: 'numeric', fractionalSecondDigits: 2});
         }
       })(new Date(Number(comment.vposMsec)))
     };
