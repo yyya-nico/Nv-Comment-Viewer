@@ -58,7 +58,6 @@ body {
     font-family: 'Noto Sans JP', sans-serif;
     font-weight: 400;
     line-height: 1.6;
-    scroll-behavior: smooth;
 }
 
 a:any-link {
@@ -192,10 +191,13 @@ blockquote {
 }
 
 header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
     overflow: hidden;
     height: var(--header-height);
     padding: 15px 12.5px;
-    background: #0000007f;
+    background: #111111;
     font-size: 18px;
     line-height: 26px;
     white-space: nowrap;
@@ -219,11 +221,8 @@ header {
 .list-area {
     position: relative;
     width: 100%;
-    height: contentAreaHeight(vh);
-    height: contentAreaHeight(dvh);
     padding: 0 10px;
     overflow-y: auto;
-    scroll-behavior: smooth;
 
     >* {
         width: 100%;
@@ -281,7 +280,6 @@ header {
     .comments {
         display: flex;
         flex-direction: column;
-        background-color: #1f1f1fcc;
     }
 
     #comments-list {
@@ -398,12 +396,20 @@ header {
                         margin: 4px 0;
                     }
                 }
+
+                &:focus-visible {
+                    +.detail-sp {
+                        animation-name: none;
+                    }
+                }
             }
         }
     }
 }
 
 .detail-pc {
+    position: sticky;
+    top: var(--header-height);
     overflow-x: hidden;
     overflow-y: auto;
     word-break: break-all;
