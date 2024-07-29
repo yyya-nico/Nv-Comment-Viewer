@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })(new Date(Number(comment.vposMsec)))
     };
     const html =
-    `<li data-id="${comment.id}">
+    `<li data-id="${comment.id}" tabindex="0">
       <span class="text">${formatted.text}</span><span class="time">${formatted.time}</span>
       <script type="application/json" class="raw-data">${JSON.stringify(comment)}</script>
     </li>
@@ -173,7 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // autoScroll = false;
     // commentsSyncBtn.hidden = false;
     const scrollPosition = isSmallWindow() ? li.offsetTop - 2 - 10 : li.offsetTop - (window.innerHeight - header.offsetHeight - li.offsetHeight) / 2;
-    window.scrollTo({top: scrollPosition});
+    const behavior = e.isTrusted ? 'smooth' : 'instant';
+    window.scrollTo({top: scrollPosition, behavior});
     const rawMeta = JSON.parse((li.querySelector('.raw-data').textContent));
     const dl = document.createElement('dl');
     const descList = {
@@ -248,5 +249,39 @@ document.addEventListener('DOMContentLoaded', () => {
     newDetailSp.insertAdjacentHTML('beforeend', dl2);
     li.insertAdjacentElement('afterend', newDetailSp);
     newSameUser.classList.add('same-user');
+  });
+
+  let focusedLi = null;
+  commentsList.addEventListener('focus', e => {
+    focusedLi = e.target;
+  }, true);
+  commentsList.addEventListener('keydown', e => {
+    console.log(e.key);
+    switch (e.key) {
+      case 'ArrowUp':
+        e.preventDefault();
+        (() => {
+          const next = focusedLi ? (focusedLi.previousElementSibling ?? commentsList.lastElementChild) : commentsList.firstElementChild;
+          next.click();
+          next.focus();
+        })();
+        break;
+      case 'ArrowDown':
+        e.preventDefault();
+        (() => {
+          const next = (focusedLi?.nextElementSibling?.classList.contains('detail-sp') ? focusedLi.nextElementSibling?.nextElementSibling : focusedLi?.nextElementSibling) ?? commentsList.firstElementChild;
+          next.click();
+          next.focus();
+        })();
+        break;
+      case ' ':
+      case 'Enter':
+        if (e.target === document.activeElement) {
+          e.preventDefault();
+          e.target.click();
+          e.target.focus();
+        }
+        break;
+    }
   });
 });
