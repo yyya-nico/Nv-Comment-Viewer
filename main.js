@@ -256,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
     focusedLi = e.target;
   }, true);
   commentsList.addEventListener('keydown', e => {
-    console.log(e.key);
     switch (e.key) {
       case 'ArrowUp':
         e.preventDefault();
