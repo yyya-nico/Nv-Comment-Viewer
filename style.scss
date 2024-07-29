@@ -197,7 +197,7 @@ header {
     overflow: hidden;
     height: var(--header-height);
     padding: 15px 12.5px;
-    background: #0000007f;
+    background: #111111;
     font-size: 18px;
     line-height: 26px;
     white-space: nowrap;
@@ -223,7 +223,6 @@ header {
     width: 100%;
     padding: 0 10px;
     overflow-y: auto;
-    scroll-behavior: smooth;
 
     >* {
         width: 100%;
@@ -409,6 +408,8 @@ header {
 }
 
 .detail-pc {
+    position: sticky;
+    top: var(--header-height);
     overflow-x: hidden;
     overflow-y: auto;
     word-break: break-all;
