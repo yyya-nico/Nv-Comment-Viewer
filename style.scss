@@ -19,10 +19,6 @@ body {
     overscroll-behavior: contain;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 html,
 html * {
     scrollbar-color: var(--scrollbarHandle) transparent;
@@ -399,6 +395,12 @@ header {
 
                     hr {
                         margin: 4px 0;
+                    }
+                }
+
+                &:focus-visible {
+                    +.detail-sp {
+                        animation-name: none;
                     }
                 }
             }
