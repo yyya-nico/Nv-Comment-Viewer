@@ -330,8 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
       isMyPost: '自分の投稿'
     };
     let html = '';
-    Object.keys(rawMeta).forEach(key => {
-      let value = rawMeta[key];
+    Object.entries(rawMeta).forEach(([key, value]) => {
       switch (key) {
         case 'vposMs':
           const baseDate = new Date(Number(value));
