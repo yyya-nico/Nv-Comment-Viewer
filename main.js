@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })(new Date(Number(comment.vposMs)))
     };
     const html =
-    `<li data-id="${comment.id}" data-user-id="${comment.userId}">
+    `<li data-id="${comment.id}" data-user-id="${comment.userId}" tabindex="0">
       <span class="text">${formatted.text}</span><span class="nicoru">${formatted.nicoru}</span><span class="time">${formatted.time}</span>
       <script type="application/json" class="raw-data">${JSON.stringify(comment)}</script>
     </li>
