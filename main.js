@@ -3,7 +3,7 @@ import './style.scss'
 import {htmlspecialchars, random} from './utils';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const listArea = document.querySelector('.list-area');
+  const header = document.querySelector('header');
   const commentsLoadForm = document.forms['comments-load'];
   commentsLoadForm.videoId = commentsLoadForm.elements['video-id'];
   commentsLoadForm.submitButton = commentsLoadForm.elements['submit-button'];
@@ -230,9 +230,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const videoId = nicoApiData.client.watchId;
             commentsLoadForm.videoId.value = videoId;
             commentsLoadForm.requestSubmit();
-            listArea.addEventListener('scroll', e => {
+            window.addEventListener('scroll', e => {
               if (audible) {
-                if (Math.abs(scrollPosition - listArea.scrollTop) >= 3) {
+                if (Math.abs(scrollPosition - window.scrollTop) >= 3) {
                   autoScroll = false;
                   commentsSyncBtn.hidden = false;
                   // console.log(false);
@@ -257,8 +257,8 @@ document.addEventListener('DOMContentLoaded', () => {
               const nextItemIndex = timeIndex.findIndex(val => val > currentTime);
               // console.log(nextItemIndex);
               const scrollTarget = commentsList.children[nextItemIndex];
-              scrollPosition = scrollTarget.offsetTop - listArea.clientHeight + scrollTarget.offsetHeight + 2;
-              listArea.scrollTo({top: scrollPosition, behavior: 'instant'});
+              scrollPosition = scrollTarget.offsetTop - window.innerHeight + scrollTarget.offsetHeight + 2;
+              window.scrollTo({top: scrollPosition, behavior: 'instant'});
               // console.log(currentTime);
             }
             break;
@@ -311,8 +311,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // autoScroll = false;
     // commentsSyncBtn.hidden = false;
-    const scrollPosition = isSmallWindow() ? li.offsetTop - 2 - config.offsetHeight - 10 : li.offsetTop - (listArea.clientHeight - li.offsetHeight) / 2;
-    listArea.scrollTo({top: scrollPosition});
+    const scrollPosition = isSmallWindow() ? li.offsetTop - 2 - 10 : li.offsetTop - (window.innerHeight - header.offsetHeight - li.offsetHeight) / 2;
+    const behavior = e.isTrusted ? 'smooth' : 'instant';
+    window.scrollTo({top: scrollPosition, behavior});
     const rawMeta = JSON.parse((li.querySelector('.raw-data').textContent));
     const dl = document.createElement('dl');
     const descList = {
@@ -395,15 +396,51 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.detail-sp')?.previousElementSibling.click();
   });
 
-  window.opener && document.addEventListener('keydown', e => {
-    const sendTargetKeys = ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', ' '];
-    const matched = sendTargetKeys.some(key => key === e.key);
-    if (matched) {
-      e.preventDefault();
-      window.opener?.postMessage({
-          eventName: 'keyDown',
-          data: e.key
-      }, 'https://www.nicovideo.jp');
-    }
-  });
+  if (window.opener) {
+    document.addEventListener('keydown', e => {
+      const sendTargetKeys = ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', ' '];
+      const matched = sendTargetKeys.some(key => key === e.key);
+      if (matched) {
+        e.preventDefault();
+        window.opener?.postMessage({
+            eventName: 'keyDown',
+            data: e.key
+        }, 'https://www.nicovideo.jp');
+      }
+    });
+  } else {
+    let focusedLi = null;
+    commentsList.addEventListener('focus', e => {
+      focusedLi = e.target;
+    }, true);
+
+    commentsList.addEventListener('keydown', e => {
+      switch (e.key) {
+        case 'ArrowUp':
+          e.preventDefault();
+          (() => {
+            const next = focusedLi ? (focusedLi.previousElementSibling ?? commentsList.lastElementChild) : commentsList.firstElementChild;
+            next.click();
+            next.focus();
+          })();
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          (() => {
+            const next = (focusedLi?.nextElementSibling?.classList.contains('detail-sp') ? focusedLi.nextElementSibling?.nextElementSibling : focusedLi?.nextElementSibling) ?? commentsList.firstElementChild;
+            next.click();
+            next.focus();
+          })();
+          break;
+        case ' ':
+        case 'Enter':
+          if (e.target === document.activeElement) {
+            e.preventDefault();
+            e.target.click();
+            e.target.focus();
+          }
+          break;
+      }
+    });
+  }
 });
