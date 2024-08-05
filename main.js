@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       await fetch(`${nvComment.server}/v1/threads`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'X-Client-Os-Type': 'others',
           'X-Frontend-Id': '1',
           'X-Frontend-Version': '0',
         },
