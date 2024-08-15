@@ -223,11 +223,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.origin === 'https://www.nicovideo.jp') {
       switch (e.data.eventName) {
           case 'sendData':
+          case 'sendVideoId':
             audible = true;
             introDetails.open = false;
             nicoAdWrapper.hidden = false;
-            nicoApiData = e.data.data;
-            const videoId = nicoApiData.client.watchId;
+            let videoId = '';
+            if (e.data.eventName === 'sendData') {
+              nicoApiData = e.data.data;
+              videoId = nicoApiData.client.watchId;
+            } else {
+              videoId = e.data.data.videoId;
+            }
             commentsLoadForm.videoId.value = videoId;
             commentsLoadForm.requestSubmit();
             window.addEventListener('scroll', e => {
