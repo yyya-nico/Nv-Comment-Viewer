@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoId = inputedStr.slice(cutStart, cutEnd);
     commentsLoadForm.videoId.value = videoId;
     watchLink.href = `https://nico.ms/${videoId}`;
-    if (!nicoApiData || nicoApiData.client.watchId !== videoId) {
-      if (audible && nicoApiData.client.watchId !== videoId) {
+    if (nicoApiData?.client.watchId !== videoId) {
+      if (audible && e.isTrusted) {
         audible = false;
         nicoAdWrapper.hidden = true;
       }
@@ -232,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
               nicoApiData = e.data.data;
               videoId = nicoApiData.client.watchId;
             } else {
+              nicoApiData = null;
               videoId = e.data.data.videoId;
             }
             commentsLoadForm.videoId.value = videoId;
