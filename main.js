@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // autoScroll = false;
     // commentsSyncBtn.hidden = false;
-    const scrollPosition = isSmallWindow() ? li.offsetTop - 2 - 10 : li.offsetTop - (window.innerHeight - header.offsetHeight - li.offsetHeight) / 2;
+    const scrollPosition = isSmallWindow() ? li.offsetTop - (header.offsetHeight + 10 + config.offsetHeight + 2 + 10) : li.offsetTop - (window.innerHeight - header.offsetHeight - li.offsetHeight) / 2;
     const behavior = e.isTrusted ? 'smooth' : 'instant';
     window.scrollTo({top: scrollPosition, behavior});
     const rawMeta = JSON.parse((li.querySelector('.raw-data').textContent));
