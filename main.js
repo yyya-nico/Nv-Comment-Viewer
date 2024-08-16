@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
             break;
 
           case 'playerMetadataChange':
-            if (autoScroll) {
+            if (autoScroll && !commentsLoadForm.submitButton.disabled) {
               const duration = nicoApiData.video.duration;
               const progressPercentage = e.data.data.progressPercentage;
               const isIncludeNicoAd = nicoAd.checked;
