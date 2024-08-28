@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const config = document.querySelector('.config');
   const threadSel = document.getElementById('thread');
   const watchLink = document.querySelector('.watch-link a');
-  const nicoAdWrapper = document.querySelector('.nico-ad');
-  const nicoAd = document.getElementById('nico-ad');
   const commentsList = document.getElementById('comments-list');
   const commentsSyncBtn = document.getElementById('comments-sync');
   const detailPc = document.querySelector('.detail-pc');
@@ -24,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let nicoApiData = null;
   let commentData = null;
   let audible = false;
+  let isIncludeNicoAd = false;
   let timeIndex = [];
   let autoScroll = true;
   let scrollPosition = 0;
@@ -92,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nicoApiData?.client.watchId !== videoId) {
       if (audible && e.isTrusted) {
         audible = false;
-        nicoAdWrapper.hidden = true;
       }
       const APIURL = new URL('watch_v3_guest', base)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
       const APIParams = APIURL.searchParams;
@@ -190,6 +188,32 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Failed to load', e);
       });
     }
+    if (audible) {
+      isIncludeNicoAd = (async () => {
+        const APIURL = new URL('pickup_supporters', base)/* new URL(`https://api.nicoad.nicovideo.jp/v1/contents/video/${videoId}/pickup_supporters`) */;
+        const APIParams = APIURL.searchParams;
+        // APIParams.append('limit', 4);
+        APIParams.append('id', videoId);
+        await fetch(APIURL, {
+            // headers: {
+            //   'X-Frontend-Id': '6',
+            //   'X-Frontend-Version': '0',
+            // }
+          }
+        ).then(async response => {
+          // console.log(response);
+          if (response.status !== 200) {
+            console.log('error or no content', response.status);
+          }
+          return response.json();
+        }).then(json => {
+          return json.meta.status === 200;
+        }).catch(e => {
+          console.error('Failed to load', e);
+        });
+      })();
+      console.log('isIncludeNicoAd:', isIncludeNicoAd);
+    }
     commentsLoadForm.submitButton.disabled = false;
     commentsLoadForm.submitButton.textContent = '取得';
   }, {passive: false});
@@ -226,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
           case 'sendVideoId':
             audible = true;
             introDetails.open = false;
-            nicoAdWrapper.hidden = false;
             let videoId = '';
             if (e.data.eventName === 'sendData') {
               nicoApiData = e.data.data;
@@ -259,7 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (autoScroll && !commentsLoadForm.submitButton.disabled) {
               const duration = nicoApiData.video.duration;
               const progressPercentage = e.data.data.progressPercentage;
-              const isIncludeNicoAd = nicoAd.checked;
               const currentTime = Math.floor((duration + (isIncludeNicoAd ? 10 : 0)) * 1000 * progressPercentage);
               const nextItemIndex = timeIndex.findIndex(val => val > currentTime);
               // console.log(nextItemIndex);
