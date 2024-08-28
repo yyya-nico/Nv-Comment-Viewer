@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
             commentsLoadForm.requestSubmit();
             window.addEventListener('scroll', e => {
               if (audible) {
-                if (Math.abs(scrollPosition - window.scrollTop) >= 3) {
+                if (Math.abs(scrollPosition - window.scrollY) >= 3) {
                   autoScroll = false;
                   commentsSyncBtn.hidden = false;
                   // console.log(false);
@@ -316,8 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (detailSp) {
       detailSp.remove();
     }
-    // autoScroll = false;
-    // commentsSyncBtn.hidden = false;
+    autoScroll = false;
+    commentsSyncBtn.hidden = false;
     const scrollPosition = isSmallWindow() ? li.offsetTop - (header.offsetHeight + 10 + config.offsetHeight + 2 + 10) : li.offsetTop - (window.innerHeight - header.offsetHeight - li.offsetHeight) / 2;
     const behavior = e.isTrusted ? 'smooth' : 'instant';
     window.scrollTo({top: scrollPosition, behavior});
