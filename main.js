@@ -188,32 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Failed to load', e);
       });
     }
-    if (audible) {
-      isIncludeNicoAd = await (async () => {
-        const APIURL = new URL('pickup_supporters', base)/* new URL(`https://api.nicoad.nicovideo.jp/v1/contents/video/${videoId}/pickup_supporters`) */;
-        const APIParams = APIURL.searchParams;
-        // APIParams.append('limit', 4);
-        APIParams.append('id', videoId);
-        return fetch(APIURL, {
-            // headers: {
-            //   'X-Frontend-Id': '6',
-            //   'X-Frontend-Version': '0',
-            // }
-          }
-        ).then(async response => {
-          // console.log(response);
-          if (response.status !== 200) {
-            console.log('error or no content', response.status);
-          }
-          return response.json();
-        }).then(json => {
-          return json.meta.status === 200;
-        }).catch(e => {
-          console.error('Failed to load', e);
-        });
-      })();
-      console.log('isIncludeNicoAd:', isIncludeNicoAd);
-    }
     commentsLoadForm.submitButton.disabled = false;
     commentsLoadForm.submitButton.textContent = '取得';
   }, {passive: false});
@@ -243,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     commentsLoadForm.requestSubmit();
   }
 
-  window.addEventListener('message', e => {
+  window.addEventListener('message', async e => {
     if (e.origin === 'https://www.nicovideo.jp') {
       switch (e.data.eventName) {
           case 'sendData':
@@ -258,6 +232,30 @@ document.addEventListener('DOMContentLoaded', () => {
               nicoApiData = null;
               videoId = e.data.data.videoId;
             }
+            isIncludeNicoAd = await (async () => {
+              const APIURL = new URL('pickup_supporters', base)/* new URL(`https://api.nicoad.nicovideo.jp/v1/contents/video/${videoId}/pickup_supporters`) */;
+              const APIParams = APIURL.searchParams;
+              // APIParams.append('limit', 4);
+              APIParams.append('id', videoId);
+              return fetch(APIURL, {
+                  // headers: {
+                  //   'X-Frontend-Id': '6',
+                  //   'X-Frontend-Version': '0',
+                  // }
+                }
+              ).then(async response => {
+                // console.log(response);
+                if (response.status !== 200) {
+                  console.log('error or no content', response.status);
+                }
+                return response.json();
+              }).then(json => {
+                return json.meta.status === 200;
+              }).catch(e => {
+                console.error('Failed to load', e);
+              });
+            })();
+            console.log('isIncludeNicoAd:', isIncludeNicoAd);
             commentsLoadForm.videoId.value = videoId;
             commentsLoadForm.requestSubmit();
             window.addEventListener('scroll', e => {
