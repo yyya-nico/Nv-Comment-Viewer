@@ -13,7 +13,6 @@ if(isset($_GET['id'])) {
 
     $ch = curl_init($url);
 
-    curl_setopt($ch, CURLOPT_POST, TRUE);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
     curl_setopt($ch, CURLOPT_USERAGENT, 'Nv-Comment-Viewer/1.0 (https://yyya-nico.co/nv_comment_viewer/; info@yyya-nico.co)');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
