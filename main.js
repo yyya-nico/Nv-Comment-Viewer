@@ -189,12 +189,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     if (audible) {
-      isIncludeNicoAd = (async () => {
+      isIncludeNicoAd = await (async () => {
         const APIURL = new URL('pickup_supporters', base)/* new URL(`https://api.nicoad.nicovideo.jp/v1/contents/video/${videoId}/pickup_supporters`) */;
         const APIParams = APIURL.searchParams;
         // APIParams.append('limit', 4);
         APIParams.append('id', videoId);
-        await fetch(APIURL, {
+        return fetch(APIURL, {
             // headers: {
             //   'X-Frontend-Id': '6',
             //   'X-Frontend-Version': '0',
