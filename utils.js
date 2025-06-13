@@ -21,6 +21,10 @@ const htmlspecialchars = unsafeText => {
     );
 }
 
+const nl2br = text => {
+    return text.replace(/\n/g, "<br>");
+};
+
 const fromNow = posted => {
     const diff = new Date().getTime() - posted.getTime();
     const progress = new Date(diff);
@@ -52,4 +56,4 @@ const random = {
     }
 }
 
-export {scrollToBottom, htmlspecialchars, fromNow, random}
+export {scrollToBottom, htmlspecialchars, nl2br, fromNow, random}

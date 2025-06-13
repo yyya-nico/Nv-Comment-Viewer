@@ -1,6 +1,6 @@
 import './style.scss'
 
-import {htmlspecialchars, random} from './utils';
+import {htmlspecialchars, nl2br, random} from './utils';
 
 document.addEventListener('DOMContentLoaded', () => {
   const header = document.querySelector('header');
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const makeHTMLFromComment = comment => {
     const formatted = {
-      text: htmlspecialchars(comment.body).replace(/\n/g, '<br>'),
+      text: nl2br(htmlspecialchars(comment.body)),
       nicoru: comment.nicoruCount !== 0 ? comment.nicoruCount : '',
       time: ((baseDate) => {
         /* if (baseDate.getUTCFullYear() - 1970) {
