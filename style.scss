@@ -58,6 +58,19 @@ body {
     font-family: 'Noto Sans JP', sans-serif;
     font-weight: 400;
     line-height: 1.6;
+
+    &.linked {
+        .list-area {
+            #comments-list {
+                &:has(+#comments-sync:not([hidden])) {
+                    margin-bottom: 20px;
+                }
+            }
+            #comments-sync {
+                display: block;
+            }
+        }
+    }
 }
 
 a:any-link {
@@ -281,10 +294,6 @@ header {
         padding-left: 0;
         list-style: none;
 
-        :has(+#comments-sync:not([hidden])) {
-            margin-bottom: 20px;
-        }
-
         >li {
             display: flex;
             justify-content: space-between;
@@ -341,7 +350,7 @@ header {
     }
 
     #comments-sync {
-        display: block;
+        display: none;
         align-self: baseline;
         position: sticky;
         bottom: 10px;

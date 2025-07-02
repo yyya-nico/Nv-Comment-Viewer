@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nicoApiData?.client.watchId !== videoId) {
       if (audible && e.isTrusted) {
         audible = false;
+        document.body.classList.remove('linked');
       }
       const APIURL = new URL('watch_v3_guest', base)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
       const APIParams = APIURL.searchParams;
@@ -223,6 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
           case 'sendData':
           case 'sendVideoId':
             audible = true;
+            document.body.classList.add('linked');
             introDetails.open = false;
             let videoId = '';
             if (e.data.eventName === 'sendData') {
