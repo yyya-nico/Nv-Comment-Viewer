@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const isSmallWindow = () => window.innerWidth < 1024;
   let nicoApiData = null;
   let commentData = null;
-  let audible = false;
+  let linked = false;
   let isIncludeNicoAd = false;
   let timeIndex = [];
   let autoScroll = true;
@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
     commentsLoadForm.videoId.value = videoId;
     watchLink.href = `https://nico.ms/${videoId}`;
     if (nicoApiData?.client.watchId !== videoId) {
-      if (audible && e.isTrusted) {
-        audible = false;
+      if (linked && e.isTrusted) {
+        linked = false;
         document.body.classList.remove('linked');
       }
       const APIURL = new URL('watch_v3_guest', base)/* new URL(`https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`) */;
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
       switch (e.data.eventName) {
           case 'sendData':
           case 'sendVideoId':
-            audible = true;
+            linked = true;
             document.body.classList.add('linked');
             introDetails.open = false;
             let videoId = '';
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
             commentsLoadForm.videoId.value = videoId;
             commentsLoadForm.requestSubmit();
             window.addEventListener('scroll', e => {
-              if (audible) {
+              if (linked) {
                 if (Math.abs(scrollPosition - window.scrollY) >= 3) {
                   autoScroll = false;
                   commentsSyncBtn.hidden = false;
