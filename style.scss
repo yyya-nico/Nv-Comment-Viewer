@@ -17,6 +17,7 @@
 html,
 body {
     overscroll-behavior: contain;
+    scroll-padding-top: var(--header-height);
 }
 
 html,
@@ -290,7 +291,8 @@ header {
     #comments-list {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        --gap: 4px;
+        gap: var(--gap);
         padding-left: 0;
         list-style: none;
 
@@ -303,11 +305,13 @@ header {
             overflow-wrap: break-word;
             word-wrap: break-word;
             line-break: anywhere;
-            padding: 4px 10px;
+            --padding-block: 4px;
+            padding: var(--padding-block) 10px;
             border-radius: 6px;
             transition: .1s;
             animation: flash .2s linear;
             cursor: pointer;
+            scroll-margin-block: calc(10px + 58px + 10px + (var(--gap) / 2)) calc(var(--padding-block) + (var(--gap) / 2));
 
             &:hover {
                 background-color: #333333;

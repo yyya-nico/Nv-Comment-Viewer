@@ -286,8 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
               const nextItemIndex = timeIndex.findIndex(val => val > currentTime);
               // console.log(nextItemIndex);
               const scrollTarget = commentsList.children[nextItemIndex];
-              scrollPosition = scrollTarget.offsetTop - window.innerHeight + scrollTarget.offsetHeight + 2;
-              window.scrollTo({top: scrollPosition, behavior: 'instant'});
+              scrollTarget?.scrollIntoView({block: 'end', behavior: 'instant'});
               // console.log(currentTime);
             }
             break;
@@ -340,9 +339,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     autoScroll = false;
     commentsSyncBtn.hidden = false;
-    const scrollPosition = isSmallWindow() ? li.offsetTop - (header.offsetHeight + 10 + config.offsetHeight + 2 + 10) : li.offsetTop - (window.innerHeight - header.offsetHeight - li.offsetHeight) / 2;
+    const scrollPosition = isSmallWindow() ? 'start' : 'center';
     const behavior = e.isTrusted ? 'smooth' : 'instant';
-    window.scrollTo({top: scrollPosition, behavior});
+    li.scrollIntoView({block: scrollPosition, behavior});
     const rawMeta = JSON.parse((li.querySelector('.raw-data').textContent));
     const dl = document.createElement('dl');
     const descList = {
