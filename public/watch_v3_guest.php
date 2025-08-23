@@ -16,7 +16,7 @@ if(isset($_GET['id']) && isset($_GET['actionTrackId'])) {
 
     curl_setopt($ch, CURLOPT_POST, TRUE);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Nv-Comment-Viewer/1.0 (https://yyya-nico.co/nv_comment_viewer/; info@yyya-nico.co)');
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Nv-Comment-Viewer/1.0 (https://yyya-nico.com/nv-comment-viewer; info@yyya-nico.com)');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     $html = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
